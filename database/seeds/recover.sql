@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2017-01-11 11:58:40
+Date: 2017-01-12 11:30:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -41,7 +41,7 @@ INSERT INTO `articles` VALUES ('2', '122', '2', '111', 'http://izxin.ngrok.4kb.c
 INSERT INTO `articles` VALUES ('3', '122333', '2', '111', 'http://izxin.ngrok.4kb.cn/assets/img/no-image.png', '<p>1111</p>\n', '1', '2016-09-26 09:13:45', '2016-09-26 09:13:45');
 INSERT INTO `articles` VALUES ('4', 'vue', '1', 'vue', 'http://izxin.ngrok.4kb.cn/assets/img/no-image.png', '<p>vue</p>\n', '1', '2016-09-26 09:15:12', '2016-09-26 09:15:12');
 INSERT INTO `articles` VALUES ('5', 'java', '2', 'java', 'http://oe3em7ins.bkt.clouddn.com/aizxin/article/ca0f3e7728c7ab3daef1cf6134a07628.png', '<p><img src=\"http://oe3em7ins.bkt.clouddn.com/uploads/ueditor/php/upload/image/20170111/148410699726f892.png\" title=\"148410699726f892.png\" alt=\"aboutus.png\"/>java</p>', '3', '2016-09-26 09:16:25', '2017-01-11 03:56:43');
-INSERT INTO `articles` VALUES ('6', '111111', '2', '1111111', 'http://oe3em7ins.bkt.clouddn.com/89de5e7b1b386e1c412ca841272ebe1d.png', '<blockquote>\n<p>nihao</p>\n</blockquote>\n<hr>\n<ol>\n<li>nihao</li><li>jkkk</li><li>kfkfk<h6 id=\"h6-dddd\"><a name=\"dddd\" class=\"reference-link\"></a><span class=\"header-link octicon octicon-link\"></span>dddd</h6></li></ol>\n<p><img src=\"http://oe3em7ins.bkt.clouddn.com/aizxin/article/056ccdbd0bf8700808b0547cca17d703.png\" alt=\"nihao\" title=\"nihao\"></p>\n', '3', '2016-12-23 10:31:24', '2017-01-11 03:36:30');
+INSERT INTO `articles` VALUES ('6', '111111', '2', '1111111', 'http://oe3em7ins.bkt.clouddn.com/89de5e7b1b386e1c412ca841272ebe1d.png', '<blockquote><p>nihao</p></blockquote><hr/><ol class=\" list-paddingleft-2\"><li><p>nihao</p></li><li><p>jkkk</p></li><li><p>kfkfk</p></li><li><p><img src=\"http://oe3em7ins.bkt.clouddn.com/uploads/ueditor/php/upload/image/20170111/148413006063c9d6.png\" title=\"148413006063c9d6.png\" alt=\"333.png\"/><br/></p><h6><img class=\"anchorclass\"/><span class=\"header-link octicon octicon-link\"></span>dddd</h6></li></ol><p><img src=\"http://oe3em7ins.bkt.clouddn.com/aizxin/article/056ccdbd0bf8700808b0547cca17d703.png\" alt=\"nihao\" title=\"nihao\"/></p>', '3', '2016-12-23 10:31:24', '2017-01-11 10:22:20');
 
 -- ----------------------------
 -- Table structure for categories
@@ -51,6 +51,7 @@ CREATE TABLE `categories` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '分类关系',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
+  `engineName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '分类描述',
   `sort` tinyint(4) NOT NULL DEFAULT '0' COMMENT '排序',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
@@ -63,14 +64,14 @@ CREATE TABLE `categories` (
 -- ----------------------------
 -- Records of categories
 -- ----------------------------
-INSERT INTO `categories` VALUES ('1', '0', '前端开发', '', '1', '1', '2016-09-23 03:28:00', '2016-09-23 07:58:44');
-INSERT INTO `categories` VALUES ('2', '0', '后端', '', '2', '1', '2016-09-23 04:01:05', '2016-09-23 04:01:05');
-INSERT INTO `categories` VALUES ('3', '0', '数据库', '', '3', '1', '2016-09-23 04:03:30', '2016-09-23 04:03:30');
-INSERT INTO `categories` VALUES ('4', '0', '运维&测试', '', '4', '1', '2016-09-23 04:05:14', '2016-09-23 04:05:14');
-INSERT INTO `categories` VALUES ('11', '2', 'php', '', '1', '1', '2016-09-23 07:59:50', '2016-09-23 07:59:50');
-INSERT INTO `categories` VALUES ('6', '1', 'html', '', '1', '1', '2016-09-23 04:09:29', '2016-09-23 04:09:29');
-INSERT INTO `categories` VALUES ('7', '1', 'vue', '', '2', '1', '2016-09-23 04:10:43', '2016-09-23 04:10:43');
-INSERT INTO `categories` VALUES ('9', '1', 'react', '', '3', '1', '2016-09-23 06:12:11', '2016-09-23 06:12:11');
+INSERT INTO `categories` VALUES ('1', '0', '关于我们', 'about me', '', '1', '1', '2016-09-23 03:28:00', '2017-01-11 10:32:13');
+INSERT INTO `categories` VALUES ('2', '0', '后端', '', '', '2', '1', '2016-09-23 04:01:05', '2016-09-23 04:01:05');
+INSERT INTO `categories` VALUES ('3', '0', '数据库', '', '', '3', '1', '2016-09-23 04:03:30', '2016-09-23 04:03:30');
+INSERT INTO `categories` VALUES ('4', '0', '运维&测试', '', '', '4', '1', '2016-09-23 04:05:14', '2016-09-23 04:05:14');
+INSERT INTO `categories` VALUES ('11', '2', 'php', '', '', '1', '1', '2016-09-23 07:59:50', '2016-09-23 07:59:50');
+INSERT INTO `categories` VALUES ('6', '1', 'html', '', '', '1', '1', '2016-09-23 04:09:29', '2016-09-23 04:09:29');
+INSERT INTO `categories` VALUES ('7', '1', 'vue', '', '', '2', '1', '2016-09-23 04:10:43', '2016-09-23 04:10:43');
+INSERT INTO `categories` VALUES ('9', '1', 'react', '', '', '3', '1', '2016-09-23 06:12:11', '2016-09-23 06:12:11');
 
 -- ----------------------------
 -- Table structure for configs
@@ -80,8 +81,9 @@ CREATE TABLE `configs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '字段名称',
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '字段代码',
+  `group` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '字段类型',
-  `intro` text COLLATE utf8_unicode_ci NOT NULL COMMENT '文章简介',
+  `value` text COLLATE utf8_unicode_ci NOT NULL COMMENT '文章简介',
   `sort` tinyint(4) NOT NULL DEFAULT '0' COMMENT '字段排序',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -142,7 +144,7 @@ CREATE TABLE `permissions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `permissions_name_unique` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of permissions
@@ -188,6 +190,9 @@ INSERT INTO `permissions` VALUES ('38', '29', 'admin.article.store', '新增文�
 INSERT INTO `permissions` VALUES ('39', '29', 'admin.article.edit', '编辑文章视图', '编辑文章视图', '0', null, '3', '2016-09-23 08:44:21', '2016-09-23 08:44:21');
 INSERT INTO `permissions` VALUES ('40', '29', 'admin.article.update', '编辑文章操作', '编辑文章操作', '0', null, '4', '2016-09-23 08:45:26', '2016-09-23 08:45:26');
 INSERT INTO `permissions` VALUES ('41', '29', 'admin.article.destroy', '文章删除', '文章删除', '0', null, '1', '2016-09-23 08:46:22', '2016-09-23 08:46:22');
+INSERT INTO `permissions` VALUES ('42', '0', 'admin.recover.manage', '资源管理', '资源管理', '1', 'fa fa-institution alias', '2', '2017-01-12 03:01:37', '2017-01-12 03:01:37');
+INSERT INTO `permissions` VALUES ('43', '42', 'admin.recover.category.index', '资源分类列表', '资源分类资源分类列表', '1', null, '1', '2017-01-12 03:09:51', '2017-01-12 03:28:21');
+INSERT INTO `permissions` VALUES ('44', '42', 'admin.recover.index', '资源列表', '资源列表', '1', null, '2', '2017-01-12 03:16:09', '2017-01-12 03:16:09');
 
 -- ----------------------------
 -- Table structure for permission_role
@@ -236,6 +241,8 @@ INSERT INTO `permission_role` VALUES ('25', '1');
 INSERT INTO `permission_role` VALUES ('27', '1');
 INSERT INTO `permission_role` VALUES ('28', '1');
 INSERT INTO `permission_role` VALUES ('29', '1');
+INSERT INTO `permission_role` VALUES ('30', '1');
+INSERT INTO `permission_role` VALUES ('31', '1');
 INSERT INTO `permission_role` VALUES ('32', '1');
 INSERT INTO `permission_role` VALUES ('33', '1');
 INSERT INTO `permission_role` VALUES ('34', '1');
@@ -246,6 +253,9 @@ INSERT INTO `permission_role` VALUES ('38', '1');
 INSERT INTO `permission_role` VALUES ('39', '1');
 INSERT INTO `permission_role` VALUES ('40', '1');
 INSERT INTO `permission_role` VALUES ('41', '1');
+INSERT INTO `permission_role` VALUES ('42', '1');
+INSERT INTO `permission_role` VALUES ('43', '1');
+INSERT INTO `permission_role` VALUES ('44', '1');
 
 -- ----------------------------
 -- Table structure for roles
@@ -308,7 +318,7 @@ CREATE TABLE `users` (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'admin', 'admin@admin.com', '$2y$10$uyMqZp3BjFHKvf.mxhIQfOPoppPaZZ5N0FxfIMJALtxAhJbD5xed6', '4KQNTZs6P2CngoAg0MgNLQ1zVo1fLaW5dkyP07KE10AuLZL0hpgQwecqcfGr', '2016-09-01 08:17:57', '2016-09-30 06:02:56');
+INSERT INTO `users` VALUES ('1', 'admin', 'admin@admin.com', '$2y$10$uyMqZp3BjFHKvf.mxhIQfOPoppPaZZ5N0FxfIMJALtxAhJbD5xed6', 'ZrmVsZKJLIUFcQumD1cM1Ptb4dUVsweyLe6pritFFCtmJNB81gpEpoa7Rcoi', '2016-09-01 08:17:57', '2017-01-11 10:35:00');
 INSERT INTO `users` VALUES ('3', 'demo', 'demo@demo.com', '$2y$10$nvd0j6ZlGrX9q9SdLg/dZeN8iYUpezixZtPdmfkTVDeZZFyLmYFDa', 'V1q5m5bpjy8azgRVvJoeHzF55uiHYdp0OCJsOm1Bi7KyMkQEcqha6E7tLGIq', '2016-09-20 03:22:26', '2016-09-20 06:51:35');
 INSERT INTO `users` VALUES ('4', 'test', 'test@test.com', '$2y$10$m8ophfQ7FFpdmP1Xc2UVau/IEp31Zgg8trJLYomeUngWWJGMdZ5JO', null, '2016-09-20 07:15:42', '2016-09-20 07:15:42');
 INSERT INTO `users` VALUES ('5', 'test44', 'test44@test.com', '$2y$10$9zrWnAH.LhK2RiDbYy1AGO3zcpSRzQpGAiBEItWhl3T/H0sET5KyS', null, '2016-09-22 05:21:27', '2016-09-22 05:21:27');

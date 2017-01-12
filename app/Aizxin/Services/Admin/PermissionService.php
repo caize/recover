@@ -38,17 +38,18 @@ class PermissionService extends CommonService
             if(isset($data['id']) && $data['id'] > 0){
                 $this->validator->with( $data )->passesOrFail( ValidatorInterface::RULE_UPDATE );
                 if( $this->repository->update( $data ,$data['id'])){
+                    $this->repository->getMenu();
                     return $this->respondWithSuccess(1, '修改成功');
                 }
                 return $this->respondWithErrors('修改失败',400);
             }else{
                 $this->validator->with( $data )->passesOrFail( ValidatorInterface::RULE_CREATE );
                 if( $this->repository->create( $data )){
+                    $this->repository->getMenu();
                     return $this->respondWithSuccess(1, '添加成功');
                 }
                 return $this->respondWithErrors('添加失败',400);
             }
-            $this->repository->getMenu();
         } catch (ValidatorException $e) {
             return $this->respondWithErrors( $e->getMessageBag()->first() , 422);
         }

@@ -31,7 +31,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'web'],
         Route::any('user/index', 'UserController@index')->name('admin.user.index');
         Route::post('user/role', 'UserController@role')->name('admin.user.role');
         Route::resource('user','UserController');
-        // 分类
+        // 文章分类
         Route::any('category/index', 'CategoryController@index')->name('admin.category.index');
         Route::resource('category','CategoryController');
         // 文章
@@ -39,6 +39,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'web'],
         Route::resource('article','ArticleController');
         // 网站信息
         Route::resource('config','ConfigController');
+        //资源分类
+        Route::resource('recover/category', 'CategoryController@index');
+        //资源
+        Route::any('recover/index', 'CategoryController@index')->name('admin.recover.index');
     });
 });
 
