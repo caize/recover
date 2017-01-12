@@ -1,0 +1,6 @@
+﻿echo "# izxin" >> README.md
+git init
+git add .
+git commit -m "recover资源旧收"
+git remote add origin https://github.com/chouchong/recover.git
+git push -u origin master
