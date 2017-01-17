@@ -7,15 +7,15 @@ Route::get('/admin', function () {
 Route::get('/', function () {
     return redirect()->route('index');
 });
-// 后台路由组
+//后台路由组
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'web'], function () {
     // 登录
     Route::get('login', 'AuthController@login')->name('admin.login');
     Route::post('login', 'AuthController@postLogin');
     // 注销
     Route::get('logout', 'AuthController@logout')->name('admin.logout');
-    // markdown 图片上传
-    Route::post('article/upload', 'ArticleController@upload');
+    // 七牛删除图片
+    Route::any('qiniu/delete', 'QiniuController@delete');
     // 已经登录
     Route::group(['middleware' => ['admin.auth','role.auth:admin']], function () {
         // 后台首页
@@ -38,11 +38,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'web'],
         Route::any('article/index', 'ArticleController@index')->name('admin.article.index');
         Route::resource('article','ArticleController');
         // 网站信息
+        Route::any('config/index', 'ConfigController@index')->name('admin.config.index');
         Route::resource('config','ConfigController');
         //资源分类
-        Route::resource('recover/category', 'CategoryController@index');
+        Route::any('resources/category/index', 'ResourcesCategoryController@index')->name('admin.resources.category.index');
+        Route::resource('resources/category', 'ResourcesCategoryController');
         //资源
-        Route::any('recover/index', 'CategoryController@index')->name('admin.recover.index');
+        Route::resource('resources', 'ResourcesController');
     });
 });
 
@@ -50,10 +52,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'web'],
 Route::group(['namespace' => 'Home', 'middleware'=>'web'], function () {
     Route::get('/', 'IndexController@index')->name('index');
 });
+// webapp端路由组
+Route::group(['namespace' => 'Mobile','middleware'=>'web','domain' =>'m.recover.cn'],function(){
+    Route::get('/index', 'IndexController@index')->name('index');
+});
 
 // Api路由
 $api = app('Dingo\Api\Routing\Router');
-
 // 配置api版本和路由
 $api->version('v1', ['namespace' => 'App\Http\Api\V1\Controllers'], function ($api) {
     $api->get('article.api', 'ArticleController@index');

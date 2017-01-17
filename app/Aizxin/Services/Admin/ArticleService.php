@@ -8,11 +8,8 @@ use Aizxin\Validators\ArticleValidator;
 
 use Prettus\Validator\Exceptions\ValidatorException;
 use Prettus\Validator\Contracts\ValidatorInterface;
-// 引入鉴权类
-use Qiniu\Auth;
-// 引入上传类
-use Qiniu\Storage\UploadManager;
-use zgldh\QiniuStorage\QiniuStorage;
+// 七牛
+use Aizxin\Tools\QiniuUpload;
 
 class ArticleService extends CommonService
 {
@@ -54,25 +51,6 @@ class ArticleService extends CommonService
         return $this->cate->getCateList();
     }
     /**
-     *  [uploadImage 上传图片到七牛]
-     *  izxin.com
-     *  @author qingfeng
-     *  @DateTime 2016-09-23T17:52:15+0800
-     *  @param    [type]                   $file [description]
-     *  @return   [type]                         [description]
-     */
-    private function uploadImage($file)
-    {
-        $disk = QiniuStorage::disk('qiniu');
-        $fileName = md5($file->getClientOriginalName().time().rand()).'.'.$file->getClientOriginalExtension();
-        $bool = $disk->put(config('admin.globals.imagePath').$fileName,file_get_contents($file->getRealPath()));
-        if ($bool) {
-            $path = $disk->downloadUrl(config('admin.globals.imagePath').$fileName);
-            return $path;
-        }
-        return '';
-    }
-    /**
      *  [upload markdown 图片上传]
      *  izxin.com
      *  @author qingfeng
@@ -89,7 +67,7 @@ class ArticleService extends CommonService
     public function upload($request)
     {
         if ($request->hasFile('editormd-image-file')) {
-            $path = $this->uploadImage($request->file('editormd-image-file'));
+            $path = (new QiniuUpload())->uploadImage($request->file('editormd-image-file'));
             return response()->json([
                 'success' => 1,
                 'message' => '上传成功',
@@ -103,32 +81,6 @@ class ArticleService extends CommonService
         ]);
     }
     /**
-     *  [qiniuBase64 七牛base64上传]
-     *  izxin.com
-     *  @author qingfeng
-     *  @DateTime 2016-09-26T15:16:34+0800
-     *  @param    [type]                   $base64 [description]
-     *  @return   [type]                           [description]
-     */
-    public function qiniuBase64($base64)
-    {
-        // 构建鉴权对象
-        $auth = new Auth(env('QINIU_AXXESS_KEY'), env('QINIU_SECRET_KEY'));
-        // 生成上传 Token
-        $token = $auth->uploadToken(env('QINIU_BUCKET'));
-        // // 上传到七牛后保存的文件名
-        $key = md5(time()).'.png';
-        // // 初始化 UploadManager 对象并进行文件的上传。
-        $uploadMgr = new UploadManager();
-        // 上传文件到七牛
-        list($ret, $err) = $uploadMgr->putFile($token, $key, $base64['base64']);
-        if ($err !== null) {
-            return false;
-        } else {
-            return "http://".env('QINIU_DOMAINS_DEFAULT')."/".$ret['key'];
-        }
-    }
-    /**
      *  [create 文章添加与更新]
      *  izxin.com
      *  @author qingfeng
@@ -140,9 +92,15 @@ class ArticleService extends CommonService
     {
         $data = $request->except('base64');
         if($request->has('base64')){
-            $img = $this->qiniuBase64($request->only('base64'));
+            $img = (new QiniuUpload())->qiniuBase64($request->only('base64'),config('admin.globals.imagePath.article'));
             if($img == false){
                 return $this->respondWithErrors('上传图片错误',400);
+            }
+            if(isset($data['id']) && $data['id'] > 0){
+                if(strpos($data['img'], env('QINIU_DOMAINS_DEFAULT')) !== false){
+                    $path = explode(env('QINIU_DOMAINS_DEFAULT').'/', $data['img']);
+                    (new QiniuUpload())->qiniuDelete($path[1]);
+                }
             }
             $data['img'] = $img;
         }

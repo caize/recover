@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Aizxin\Models;
+namespace Aizxin\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

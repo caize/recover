@@ -42,25 +42,28 @@
                             <fieldset>
                                 <legend></legend>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label ">文章分类:</label>
-                                    <div class="col-md-9">
+                                    <label class="col-md-3 col-sm-3 control-label ">文章分类:</label>
+                                    <div class="col-md-9 col-sm-9">
                                         <select class="form-control input" id="category_id" data-size="10" v-model="article.category_id" data-live-search="true" data-style="btn-white">
                                         <option value="0">文章分类</option>
                                         @foreach($cate as $vo)
                                         <option value="{{$vo['id']}}">{{$vo['name']}}</option>
+                                        @foreach($vo['child'] as $v)
+                                            <option value="{{$v['id']}}">&nbsp;&nbsp;++&nbsp;{{$v['name']}}</option>
+                                        @endforeach
                                         @endforeach
                                     </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">文章标题:</label>
-                                    <div class="col-md-9">
+                                    <label class="col-md-3 col-sm-3 control-label">文章标题:</label>
+                                    <div class="col-md-9 col-sm-9">
                                         <input type="text" v-model="article.title" name="title" v-validate:title="{ required: true}" class="form-control input" placeholder="文章标题">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">文章封面:</label>
-                                    <div class="col-md-9">
+                                    <label class="col-md-3 col-sm-3 control-label">文章封面:</label>
+                                    <div class="col-md-9 col-sm-9">
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
                                           <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
                                               <img src="{{asset('assets/img/no-image.png')}}" alt="" id="articleImg"/> </div>
@@ -92,38 +95,38 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label" for="message">简要描述:</label>
-                                    <div class="col-md-9">
+                                    <label class="col-md-3 col-sm-3 control-label" for="message">简要描述:</label>
+                                    <div class="col-md-9 col-sm-9">
                                         <textarea v-model="article.intro" name="intro" class="form-control input" v-validate:intro="{ required: true}" id="message" name="message" rows="4" data-parsley-range="[20,200]"
                                             placeholder="这里填写当前文章的简要描述"></textarea>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">文章状态</label>
-                                    <div class="col-md-9">
+                                <!-- <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 control-label">文章状态</label>
+                                    <div class="col-md-9 col-sm-9">
                                         <input type="radio" v-model="article.status"  data-render="switchery" data-theme="default" v-bind:value="1"/>置顶
                                         <input type="radio" v-model="article.status"  data-render="switchery" data-theme="default" v-bind:value="2"/>最热
                                         <input type="radio" v-model="article.status"  data-render="switchery" data-theme="default" v-bind:value="3"/>最新
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">文章内容</label>
-                                    <div class="col-md-9">
+                                    <label class="col-md-3 col-sm-3 control-label">文章内容</label>
+                                    <div class="col-md-9 col-sm-9">
                                         <!-- <div id="editor"><textarea style="display: none;"></textarea></div> -->
                                         <!-- 加载编辑器的容器 -->
-                                        <script id="container" name="content" type="text/plain" style="height: 500px;width: 500px">
+                                        <script id="container" name="content" type="text/plain" style="height: 500px;width: 800px">
                                         </script>
                                     </div>
                                 </div>
                                 @permission('admin.article.store')
                                 <div class="form-group">
-                                    <div class="col-md-9 col-md-offset-3">
+                                    <div class="col-md-9 col-sm-9 col-md-offset-3">
                                         <button @click="addArticle()" :disabled="$nodeValidation.invalid" type="button" class="btn btn-success btn-lg m-r-5" style="width: 100px">保 存</button>
                                     </div>
                                 </div>
                                 @endpermission
                                 <div class="form-group" v-if="msg">
-                                    <div class="col-md-9 col-md-offset-3">
+                                    <div class="col-md-9 col-sm-9 col-md-offset-3">
                                         <div class="alert alert-danger fade in m-b-15">
                                             <strong>Error!</strong>
                                             <span v-text="msg">.</span>
@@ -180,17 +183,21 @@
                 el: '#addArticle',
                 data: {
                     article:{category_id:0},
-                    msg:''
+                    msg:'',
+                    load:null,
                 },
                 created: function (){
                     this.$set('article',{!! $article !!})
                     if(this.article.id > 0){
                         $("#articleImg").attr('src',this.article.img);
                         $("#container").html(this.article.content);
+                    }else{
+                        this.$set('article.category_id',0);
                     }
                 },
                 methods: {
                     addArticle: function(){
+                        this.$set('load',layer.load());
                         this.article.category_id = $('#category_id').val();
                         this.article.content = ue.getContent();
                         this.article.img = $("#articleImg")[0].src;
@@ -221,17 +228,20 @@
                      *  [callback 返回响应]
                      */
                     callback: function(response){
+                        var _this = this;
                         if(response.data.code == 400){
                             layer.msg(response.data.message,{icon: 2});
+                            layer.close(_this.load);
                         }
                         if(response.data.code == 422){
                             layer.msg(response.data.message,{icon: 2});
+                            layer.close(_this.load);
                         }
                         if(response.data.code == 200){
-                            var ii = layer.load();
                             //此处用setTimeout演示ajax的回调
                             setTimeout(function(){
-                                layer.close(ii);
+                                layer.close(_this.load);
+                                _this.$set('load',null);
                                 layer.msg(response.data.message,{
                                   icon: 1,
                                   time: 2000 //2秒关闭（如果不配置，默认是3秒）

@@ -29,5 +29,19 @@ return [
             'web' => '网站配置'
         ],
     ],
+    'resources'=>[
+        'manage'=>'资源管理',
+        'category'=>[
+            'index'=>'资源分类列表',
+            'add'=>'资源分类添加',
+        ],
+        'index'=>'资源列表',
+        'create'=>'新增资源视图',
+        'store'=>'资源添加',
+        'edit'=>'编辑资源视图',
+        'update'=>'资源更新',
+        'destroy'=>'资源删除',
+
+    ],
 
 ];

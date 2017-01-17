@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Aizxin\Services\Admin\ConfigService;
+use Aizxin\Services\Admin\ResourcesCategoryService;
 
-class ConfigController extends Controller
+class ResourcesCategoryController extends Controller
 {
     /**
      *  [$service 服务]
@@ -23,7 +23,7 @@ class ConfigController extends Controller
      *  @DateTime 2016-09-15T00:12:46+0800
      *  @param    AuthService              $service [description]
      */
-    public function __construct(ConfigService $service)
+    public function __construct(ResourcesCategoryService $service)
     {
         $this->service = $service;
     }
@@ -37,9 +37,9 @@ class ConfigController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            return $this->service->groupList($request);
+            return $this->service->findByParent();
         }
-        return view('admin.config.index');
+        return view('admin.resources.category.index');
     }
     public function show($id){
     }
@@ -48,15 +48,34 @@ class ConfigController extends Controller
     }
     public function store(Request $request)
     {
-        return $this->service->editConfig($request);
+        return $this->service->create($request);
     }
     public function edit($id)
     {
     }
+    /**
+     *  [destroy 分类删除]
+     *  臭虫科技
+     *  @author chouchong
+     *  @DateTime 2017-01-13T17:13:55+0800
+     *  @param    [type]                   $id [description]
+     *  @return   [type]                       [description]
+     */
     public function destroy($id)
     {
+        return $this->service->destroy($id);
     }
+    /**
+     *  [update 分类更新]
+     *  臭虫科技
+     *  @author chouchong
+     *  @DateTime 2017-01-13T17:14:11+0800
+     *  @param    Request                  $request [description]
+     *  @param    [type]                   $id      [description]
+     *  @return   [type]                            [description]
+     */
     public function update(Request $request,$id)
     {
+        return $this->service->create($request);
     }
 }

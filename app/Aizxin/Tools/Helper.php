@@ -12,9 +12,12 @@ if (! function_exists('foo')) {
         return "foo";
     }
 }
+/**
+ *  递归迭代无限级分类
+ */
 if (! function_exists('sort_parent')) {
     /**
-     *  [sortMenu description]
+     *  [sort_parent description]
      */
     function sort_parent($menus,$pid=0)
     {
@@ -29,6 +32,41 @@ if (! function_exists('sort_parent')) {
             }
         }
         return $arr;
+    }
+}
+/**
+ *  非递归迭代无限级分类
+ */
+if (! function_exists('aizxin_sort_parent')) {
+    /**
+     *  [aizxin_sort_parent description]
+     */
+    function aizxin_sort_parent($list)
+    {
+        $return = [];//索引目录
+        $parent='';//根目录,
+
+        //数组预处理,这里的$v['id']一定要唯一,不然可能会出现被覆盖的情况
+
+        foreach ($list as $v)
+            $return[$v['id']] = [
+                'id' => $v['id'],
+                'name' => $v['name'],
+                'parent_id' => $v['parent_id'],
+                'child' => '',
+            ];
+
+
+        //将每个目录与父目录进行拼接,并找到根目录
+        //找到父路径,这里没有判断 $return[$v['pid']]['child']是否存在,
+        //TP5下或者在不存在的情况下可能会报错,自己加一下
+        foreach ($return as $k => $v) {
+            if ($v['parent_id'] >= 0)
+                $return[$v['parent_id']]['child'][$v['id']] = &$return[$k];
+            else
+                $parent = &$return[$k];
+        }
+        return $return;
     }
 }
 /**
@@ -77,5 +115,43 @@ if (! function_exists('qiniu_by_curl')) {
         $data = curl_exec($ch);
         curl_close($ch);
         return $data;
+    }
+}
+/**
+ * 响应成功
+ * @param string $message
+ * @return \Illuminate\Http\Response
+ */
+if (! function_exists('respondWithSuccess')) {
+    /**
+     *  [qiniu_by_curl description]
+     */
+    function respondWithSuccess($data, $message = '', $code = 200, $status = 'success')
+    {
+        return response()->json([
+            'status' => $status,
+            'code' => $code,
+            'message' => $message,
+            'result' => $data,
+        ]);
+    }
+}
+
+/**
+ * 响应错误
+ * @param string $message
+ * @param int $code
+ * @param string $status
+ * @return Response
+ */
+if (! function_exists('respondWithErrors')) {
+
+    function respondWithErrors($message = '', $code = 404, $status = 'error')
+    {
+        return response()->json([
+            'status' => $status,
+            'code' => $code,
+            'message' => $message,
+        ]);
     }
 }

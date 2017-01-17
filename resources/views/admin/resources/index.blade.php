@@ -1,14 +1,15 @@
-<?php $__env->startSection('content'); ?>
+@extends('layouts.admin')
+@section('content')
 <div id="content" class="content">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
-        <li><a href="javascript:;">文章管理</a></li>
+        <li><a href="javascript:;">{!! trans('admin.resources.manage') !!}</a></li>
         <!--<li><a href="javascript:;">文章列表</a></li>-->
-        <li class="active">文章列表</li>
+        <li class="active">{!! trans('admin.resources.index') !!}</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">文章管理<small>...</small></h1>
+    <h1 class="page-header">{!! trans('admin.resources.manage') !!}<small>...</small></h1>
     <!-- end page-header -->
 
     <!-- begin row -->
@@ -24,7 +25,7 @@
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                     </div>
-                    <h4 class="panel-title">文章列表</h4>
+                    <h4 class="panel-title">{!! trans('admin.resources.index') !!}</h4>
                 </div>
                 <div class="panel-body" id="article">
                     <div class="table-responsive">
@@ -32,9 +33,9 @@
                             <div class="dataTables_length" id="data-table_length">
                                 <label>显示
                                     <vue-select @change-page="fetchItems" :pagination.sync="pagination" :page-size.sync="pageSize" :name.sync="name"></vue-select>
-                                    <?php if (\Entrust::can('admin.article.create')) : ?>
-                                    <a href="<?php echo e(url('admin/article/create')); ?>"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;">文章添加</a>
-                                    <?php endif; // Entrust::can ?>
+                                    @permission('admin.resources.create')
+                                    <a href="{{url('admin/resources/create')}}"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;">{!! trans('admin.resources.store') !!}</a>
+                                    @endpermission
                                 </label>
                             </div>
                             <vue-input @change-page="fetchItems" :pagination.sync="pagination" :page-size.sync="pageSize" :name.sync="name" :title="title"></vue-input>
@@ -54,22 +55,22 @@
                                 <tbody>
                                     <template v-for="vo in items">
                                         <tr class="gradeA odd" role="row" >
-                                            <td class="sorting_1">{{$index+1}}</td>
-                                            <td>{{vo.title}}</td>
-                                            <td>{{vo.category.name}}</td>
+                                            <td class="sorting_1">@{{$index+1}}</td>
+                                            <td>@{{vo.title}}</td>
+                                            <td>@{{vo.category.name}}</td>
                                             <td>
-                                                <?php if (\Entrust::can('admin.article.edit')) : ?>
-                                                <a href="<?php echo e(url('admin/article')); ?>/{{vo.id}}/edit" class="btn btn-primary delete">
+                                                @permission('admin.article.edit')
+                                                <a href="{{url('admin/article')}}/@{{vo.id}}/edit" class="btn btn-primary delete">
                                                 <i class="fa fa-edit"></i>
                                                 <span>修改</span>
                                                 </a>
-                                                 <?php endif; // Entrust::can ?>
-                                                 <?php if (\Entrust::can('admin.article.destroy')) : ?>
+                                                 @endpermission
+                                                 @permission('admin.article.destroy')
                                                 <button type="button" class="btn btn-danger delete" @click="destroy(vo.id)">
                                                     <i class="glyphicon glyphicon-trash"></i>
                                                     <span>删除</span>
                                                 </button>
-                                                <?php endif; // Entrust::can ?>
+                                                @endpermission
                                             </td>
                                         </tr>
                                     </template>
@@ -86,7 +87,7 @@
     <!-- end row -->
     </div>
 </div>
-<?php $__env->stopSection(); ?> <?php $__env->startSection('my-js'); ?>
+@endsection @section('my-js')
 <script src="/layer/layer.js"></script>
 <script src="/vue/vue-pagination.js"></script>
 <script>
@@ -97,7 +98,7 @@ var vn = new Vue({
         http: {
             root: '/root',
             headers: {
-                'X-CSRF-TOKEN': "<?php echo e(csrf_token()); ?>"
+                'X-CSRF-TOKEN': "{{csrf_token()}}"
             }
         },
         el: '#article',
@@ -126,7 +127,7 @@ var vn = new Vue({
             fetchItems: function (page,pageSize,name) {
                 this.pagination.current_page = page;
                 var data = {page: page,pageSize:pageSize,name:name};
-                this.$http.post("<?php echo e(url('admin/article/index')); ?>", data).then(function (response) {
+                this.$http.post("{{url('admin/article/index')}}", data).then(function (response) {
                     this.$set('items', response.data.result.data);
                     this.$set('pagination', response.data.result.pagination);
                 }, function (error) {
@@ -138,7 +139,7 @@ var vn = new Vue({
              */
             destroy:function (id){
                 layer.confirm('确认删除文章', {icon: 1, title:'删除文章'}, function(index){
-                    vn.$http.delete("<?php echo e(url('admin/article')); ?>/"+id).then(function(response){
+                    vn.$http.delete("{{url('admin/article')}}/"+id).then(function(response){
                         if(response.data.code == 400){
                             layer.close(index);
                             layer.msg(response.data.message);
@@ -160,5 +161,4 @@ var vn = new Vue({
             }
         }
     });
-</script> <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+</script> @endsection

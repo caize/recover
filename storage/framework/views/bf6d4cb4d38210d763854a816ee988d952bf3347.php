@@ -1,14 +1,14 @@
- <?php $__env->startSection('content'); ?>
+<?php $__env->startSection('content'); ?>
 <div id="content" class="content">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
-        <li><a href="javascript:;">权限管理</a></li>
-        <!--<li><a href="javascript:;">权限列表</a></li>-->
-        <li class="active">权限列表</li>
+        <li><a href="javascript:;"><?php echo trans('admin.resources.manage'); ?></a></li>
+        <!--<li><a href="javascript:;">文章列表</a></li>-->
+        <li class="active"><?php echo trans('admin.resources.index'); ?></li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">权限管理<small>...</small></h1>
+    <h1 class="page-header"><?php echo trans('admin.resources.manage'); ?><small>...</small></h1>
     <!-- end page-header -->
 
     <!-- begin row -->
@@ -24,16 +24,16 @@
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                     </div>
-                    <h4 class="panel-title">权限列表</h4>
+                    <h4 class="panel-title"><?php echo trans('admin.resources.index'); ?></h4>
                 </div>
-                <div class="panel-body" id="permission">
+                <div class="panel-body" id="article">
                     <div class="table-responsive">
                         <div id="data-table_wrapper" class="dataTables_wrapper no-footer">
                             <div class="dataTables_length" id="data-table_length">
                                 <label>显示
                                     <vue-select @change-page="fetchItems" :pagination.sync="pagination" :page-size.sync="pageSize" :name.sync="name"></vue-select>
-                                    <?php if (\Entrust::can('admin.permission.create')) : ?>
-                                    <a href="<?php echo e(url('admin/permission/create')); ?>"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;">权限添加</a>
+                                    <?php if (\Entrust::can(('admin.resources.create'))) : ?>
+                                    <a href="<?php echo e(url('admin/resources/create')); ?>"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;"><?php echo trans('admin.resources.store'); ?></a>
                                     <?php endif; // Entrust::can ?>
                                 </label>
                             </div>
@@ -44,26 +44,27 @@
                                         <th class="sorting_asc" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending"
                                             style="width: 271px;">编号</th>
                                         <th class="sorting" tabindex="0" aria-controls="data-table"
-                                            rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 392px;">名称</th>
+                                            rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 392px;">标题</th>
                                         <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1"
-                                            colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 360px;">排序</th>                                        <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1"
+                                            colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 237px;">分类</th>
+                                        <th class="sorting" tabindex="0" aria-controls="data-table" rowspan="1"
                                             colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 182px;">操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <template v-for="vo in items">
                                         <tr class="gradeA odd" role="row" >
-                                            <td class="sorting_1">{{vo.id}}</td>
-                                            <td>{{vo.display_name}}</td>
-                                            <td>{{vo.sort}}</td>
+                                            <td class="sorting_1">{{$index+1}}</td>
+                                            <td>{{vo.title}}</td>
+                                            <td>{{vo.category.name}}</td>
                                             <td>
-                                                <?php if (\Entrust::can('admin.permission.edit')) : ?>
-                                                <a href="<?php echo e(url('admin/permission')); ?>/{{vo.id}}/edit" class="btn btn-primary delete">
+                                                <?php if (\Entrust::can(('admin.article.edit'))) : ?>
+                                                <a href="<?php echo e(url('admin/article')); ?>/{{vo.id}}/edit" class="btn btn-primary delete">
                                                 <i class="fa fa-edit"></i>
                                                 <span>修改</span>
                                                 </a>
-                                                <?php endif; // Entrust::can ?>
-                                                <?php if (\Entrust::can('admin.permission.destroy')) : ?>
+                                                 <?php endif; // Entrust::can ?>
+                                                 <?php if (\Entrust::can(('admin.article.destroy'))) : ?>
                                                 <button type="button" class="btn btn-danger delete" @click="destroy(vo.id)">
                                                     <i class="glyphicon glyphicon-trash"></i>
                                                     <span>删除</span>
@@ -71,48 +72,6 @@
                                                 <?php endif; // Entrust::can ?>
                                             </td>
                                         </tr>
-                                            <template v-for="v in vo.child">
-                                                <tr class="gradeA even" role="row" >
-                                                    <td class="sorting_1">{{v.id}}</td>
-                                                    <td>┗━{{v.display_name}}</td>
-                                                    <td>{{v.sort}}</td>
-                                                    <td>
-                                                        <?php if (\Entrust::can('admin.permission.edit')) : ?>
-                                                        <a href="<?php echo e(url('admin/permission')); ?>/{{v.id}}/edit" class="btn btn-primary delete">
-                                                            <i class="fa fa-edit"></i>
-                                                            <span>修改</span>
-                                                        </a>
-                                                        <?php endif; // Entrust::can ?>
-                                                        <?php if (\Entrust::can('admin.permission.destroy')) : ?>
-                                                        <button type="button" class="btn btn-danger delete" @click="destroy(v.id)">
-                                                            <i class="glyphicon glyphicon-trash"></i>
-                                                            <span>删除</span>
-                                                        </button>
-                                                        <?php endif; // Entrust::can ?>
-                                                    </td>
-                                                </tr>
-                                                <template v-for="t in v.child">
-                                                    <tr class="gradeA even" role="row" >
-                                                        <td class="sorting_1">{{t.id}}</td>
-                                                        <td>┗━━{{t.display_name}}</td>
-                                                        <td>{{t.sort}}</td>
-                                                        <td>
-                                                            <?php if (\Entrust::can('admin.permission.edit')) : ?>
-                                                            <a href="<?php echo e(url('admin/permission')); ?>/{{t.id}}/edit" class="btn btn-primary delete">
-                                                                <i class="fa fa-edit"></i>
-                                                                <span>修改</span>
-                                                            </a>
-                                                            <?php endif; // Entrust::can ?>
-                                                            <?php if (\Entrust::can('admin.permission.destroy')) : ?>
-                                                            <button type="button" class="btn btn-danger delete" @click="destroy(t.id)">
-                                                                <i class="glyphicon glyphicon-trash"></i>
-                                                                <span>删除</span>
-                                                            </button>
-                                                            <?php endif; // Entrust::can ?>
-                                                    </td>
-                                                    </tr>
-                                                </template>
-                                            </template>
                                     </template>
                                 </tbody>
                             </table>
@@ -125,7 +84,7 @@
         <!-- end col-12 -->
     </div>
     <!-- end row -->
-</div>
+    </div>
 </div>
 <?php $__env->stopSection(); ?> <?php $__env->startSection('my-js'); ?>
 <script src="/layer/layer.js"></script>
@@ -141,7 +100,7 @@ var vn = new Vue({
                 'X-CSRF-TOKEN': "<?php echo e(csrf_token()); ?>"
             }
         },
-        el: '#permission',
+        el: '#article',
         data: {
             pagination: {
                 total: 0,
@@ -155,31 +114,31 @@ var vn = new Vue({
             msg:'',
             pageSize:10,
             name:'',
-            title:'只能查顶级权限'
+            title:'只能查文章标题'
         },
         created: function () {
             this.fetchItems(this.pagination.current_page,this.pageSize,'');
         },
         methods: {
             /**
-             *  [fetchItems 获取权限]
+             *  [fetchItems 获取文章]
              */
             fetchItems: function (page,pageSize,name) {
                 this.pagination.current_page = page;
-                var data = {page: page,pageSize:pageSize,display_name:name};
-                this.$http.post("<?php echo e(url('admin/permission/index')); ?>", data).then(function (response) {
+                var data = {page: page,pageSize:pageSize,name:name};
+                this.$http.post("<?php echo e(url('admin/article/index')); ?>", data).then(function (response) {
                     this.$set('items', response.data.result.data);
                     this.$set('pagination', response.data.result.pagination);
                 }, function (error) {
-                    // handle error
+                    console.log("系统错误");
                 });
             },
             /**
-             *  [destroy 删除权限]
+             *  [destroy 删除文章]
              */
             destroy:function (id){
-                layer.confirm('确认删除权限', {icon: 1, title:'删除权限'}, function(index){
-                    vn.$http.delete("<?php echo e(url('admin/permission')); ?>/"+id).then(function(response){
+                layer.confirm('确认删除文章', {icon: 1, title:'删除文章'}, function(index){
+                    vn.$http.delete("<?php echo e(url('admin/article')); ?>/"+id).then(function(response){
                         if(response.data.code == 400){
                             layer.close(index);
                             layer.msg(response.data.message);

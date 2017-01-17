@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Mobile;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -9,6 +9,6 @@ class IndexController extends Controller
 {
     public function index()
     {
-        dd('pc');
+        dd(route('index'));
     }
 }
