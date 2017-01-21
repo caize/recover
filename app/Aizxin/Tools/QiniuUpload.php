@@ -19,13 +19,13 @@ class QiniuUpload {
      *  @param    [type]                   $file [description]
      *  @return   [type]                         [description]
      */
-    public function uploadImage($file)
+    public function uploadImage($path,$file)
     {
         $disk = QiniuStorage::disk('qiniu');
         $fileName = md5($file->getClientOriginalName().time().rand()).'.'.$file->getClientOriginalExtension();
-        $bool = $disk->put(config('admin.globals.imagePath.article').$fileName,file_get_contents($file->getRealPath()));
+        $bool = $disk->put($path.$fileName,file_get_contents($file->getRealPath()));
         if ($bool) {
-            $path = $disk->downloadUrl(config('admin.globals.imagePath.article').$fileName);
+            $path = $disk->downloadUrl($path.$fileName);
             return $path;
         }
         return '';

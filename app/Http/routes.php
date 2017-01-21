@@ -14,8 +14,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'web'],
     Route::post('login', 'AuthController@postLogin');
     // 注销
     Route::get('logout', 'AuthController@logout')->name('admin.logout');
-    // 七牛删除图片
-    Route::any('qiniu/delete', 'QiniuController@delete');
+    // 七牛
+    Route::any('qiniu/upload', 'QiniuController@upload');
+    Route::post('qiniu/delete', 'QiniuController@delete');
     // 已经登录
     Route::group(['middleware' => ['admin.auth','role.auth:admin']], function () {
         // 后台首页
@@ -46,8 +47,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'web'],
         //资源
         Route::resource('resources', 'ResourcesController');
     });
+    Route::get('/area', 'AreaController@index');
+    Route::get('/cate', 'ResourcesCategoryController@list');
 });
-
 // pc端路由组
 Route::group(['namespace' => 'Home', 'middleware'=>'web'], function () {
     Route::get('/', 'IndexController@index')->name('index');
@@ -60,6 +62,15 @@ Route::group(['namespace' => 'Mobile','middleware'=>'web','domain' =>'m.recover.
 // Api路由
 $api = app('Dingo\Api\Routing\Router');
 // 配置api版本和路由
-$api->version('v1', ['namespace' => 'App\Http\Api\V1\Controllers'], function ($api) {
-    $api->get('article.api', 'ArticleController@index');
+$api->version('v1', function ($api) {
+    $api->group(['namespace' => 'App\Http\Api\V1\Controllers','middleware' => 'cors'], function ($api) {
+
+
+        $api->any('a.api', 'ArticleController@index');
+        $api->group(['middleware' => 'jwt.auth'], function ($api) {
+
+            $api->any('article.api', 'ArticleController@index');
+        });
+
+    });
 });

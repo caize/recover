@@ -1,13 +1,28 @@
 @extends('layouts.admin') @section('style')
 @include('UEditor::head');
-<link rel="stylesheet" type="text/css" href="/assets/plugins/bootstrap-fileinput/bootstrap-fileinput.css">
-<!-- <link rel="stylesheet" type="text/css" href="/assets/plugins/editor/css/editormd.min.css"> -->
 <style>
     .input {
         width: 500px;
     }
     .bootstrap-select.form-control:not([class*="span"]) {
         width: 500px;
+    }
+    .cc-select{
+        width: 28%;float: left;
+    }
+    @media only screen and (min-width: 1200px) {
+        .media-input {
+            width: 50%;
+        }
+        .media-text {
+            width: 52%;
+        }
+        .cc-select{
+            width: 14%;float: left;
+        }
+    }
+    .kv-preview-data.file-preview-image.file-zoom-detail{
+        width: 100%  !important;
     }
 </style>
 @endsection @section('content')
@@ -40,11 +55,11 @@
                     <div id="wizard">
                         <ol>
                             <li>
-                                目标选择
+                                服务类型选择
                                 <small>.</small>
                             </li>
                             <li>
-                                身份选择
+                                服务身份选择
                                 <small>.</small>
                             </li>
                             <li>
@@ -63,36 +78,44 @@
                                 <!-- begin row -->
                                 <div class="row">
                                     <!-- begin col-4 -->
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="radiorequired" value="foo" id="radio-required" data-parsley-required="true" data-parsley-multiple="radiorequired" data-parsley-id="0518"> Radio Button 1
-                                                    </label><ul class="parsley-errors-list" id="parsley-id-multiple-radiorequired"></ul>
-                                                </div>
-                                            </div>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(1,1)" v-bind:class="[ targetA==1 ? btnSuccess : btnWhite]">我要销售</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="radiorequired" value="foo" id="radio-required" data-parsley-required="true" data-parsley-multiple="radiorequired" data-parsley-id="0518"> Radio Button 1
-                                                    </label><ul class="parsley-errors-list" id="parsley-id-multiple-radiorequired"></ul>
-                                                </div>
-                                            </div>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(1,2)" v-bind:class="[ targetA==2 ? btnSuccess : btnWhite]">我要求购</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Last Name</label>
-                                            <input type="text" name="lastname" placeholder="Smith" class="form-control" />
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(2,3)" v-bind:class="[ targetA==3 ? btnSuccess : btnWhite]">我需要服务</button>
+                                        </div>
+                                    </div>
+                                    <!-- end col-4 -->
+                                    <!-- begin col-4 -->
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(2,4)" v-bind:class="[ targetA==4 ? btnSuccess : btnWhite]">我提供服务</button>
+                                        </div>
+                                    </div>
+                                    <!-- end col-4 -->
+                                    <!-- begin col-4 -->
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(3,5)" v-bind:class="[ targetA==5 ? btnSuccess : btnWhite]">免费信息</button>
+                                        </div>
+                                    </div>
+                                    <!-- end col-4 -->
+                                    <!-- begin col-4 -->
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <!-- <button type="button" class="btn btn-white btn-lg m-r-5 m-b-5">我要销售</button> -->
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
@@ -104,25 +127,50 @@
                         <!-- begin wizard step-2 -->
                         <div>
                             <fieldset>
-                                <legend class="pull-left width-full">Contact Information</legend>
+                                <legend class="pull-left width-full"></legend>
                                 <!-- begin row -->
                                 <div class="row">
-                                    <!-- begin col-6 -->
-                                    <div class="col-md-6">
+                                    <!-- begin col-4 -->
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Phone Number</label>
-                                            <input type="text" name="phone" placeholder="123-456-7890" class="form-control" />
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(1)" v-bind:class="[ identityA==1 ? btnSuccess : btnWhite]">企业/工厂</button>
                                         </div>
                                     </div>
-                                    <!-- end col-6 -->
-                                    <!-- begin col-6 -->
-                                    <div class="col-md-6">
+                                    <!-- end col-4 -->
+                                    <!-- begin col-4 -->
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Email Address</label>
-                                            <input type="text" name="email" placeholder="someone@example.com" class="form-control" />
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(2)" v-bind:class="[ identityA==2 ? btnSuccess : btnWhite]">回收/贸易商</button>
                                         </div>
                                     </div>
-                                    <!-- end col-6 -->
+                                    <!-- end col-4 -->
+                                    <!-- begin col-4 -->
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(3)" v-bind:class="[ identityA==3 ? btnSuccess : btnWhite]">加工/利用商</button>
+                                        </div>
+                                    </div>
+                                    <!-- end col-4 -->
+                                    <!-- begin col-4 -->
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(4)" v-bind:class="[ identityA==4 ? btnSuccess : btnWhite]">个人/个体商户</button>
+                                        </div>
+                                    </div>
+                                    <!-- end col-4 -->
+                                    <!-- begin col-4 -->
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(5)" v-bind:class="[ identityA==5 ? btnSuccess : btnWhite]">机关/事业单位</button>
+                                        </div>
+                                    </div>
+                                    <!-- end col-4 -->
+                                    <!-- begin col-4 -->
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <!-- <button type="button" class="btn btn-white btn-lg m-r-5 m-b-5">我要销售</button> -->
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- end row -->
                             </fieldset>
@@ -131,37 +179,146 @@
                         <!-- begin wizard step-3 -->
                         <div>
                             <fieldset>
-                                <legend class="pull-left width-full">Login</legend>
+                                <legend class="pull-left width-full">信息发布</legend>
                                 <!-- begin row -->
                                 <div class="row">
-                                    <!-- begin col-4 -->
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Username</label>
-                                            <div class="controls">
-                                                <input type="text" name="username" placeholder="johnsmithy" class="form-control" />
+                                    <!-- begin col-6 -->
+                                    <div class="ui-sortable">
+                                        <!-- begin panel -->
+                                        <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+                                            <div class="panel-body">
+                                                <form class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">公司名称</label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control media-input" placeholder="公司名称">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">联系人</label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control media-input" placeholder="联系人">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">联系电话</label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control media-input" placeholder="联系电话">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">联系地址</label>
+                                                        <div class="col-md-9">
+                                                            <vue-city
+                                                                :province.sync="resources.province"
+                                                                :city.sync="resources.city"
+                                                                :district.sync="resources.district"
+                                                                :provincecode.sync="resources.provincecode"
+                                                                :citycode.sync="resources.citycode"
+                                                                :districtcode.sync="resources.districtcode"
+                                                                :citydataurl.once="citydataurl"
+                                                                >
+                                                            </vue-city>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label"></label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control media-input" placeholder="联系详细地址">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">货物名称</label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control media-input" placeholder="货物名称">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">种类类型</label>
+                                                        <div class="col-md-9">
+                                                            <select class="form-control cc-select">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                            </select>
+                                                            <select class="form-control cc-select" style="margin-left: 2%;">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                            </select>
+                                                            <select class="form-control cc-select" style="margin-left: 2%;">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">货物数量</label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control cc-select" placeholder="货物数量">
+                                                            <select class="form-control cc-select" style="margin-left: 2%;">
+                                                                <option>1</option>
+                                                                <option>2</option>
+                                                                <option>3</option>
+                                                                <option>4</option>
+                                                                <option>5</option>
+                                                            </select>
+                                                            <div class="cc-select" style="margin-left: 1%;">
+                                                                <button type="button" class="btn btn-success"><i class="fa fa-edit"></i>自定义单位</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">货物价格(选填)</label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control cc-select" placeholder="货物价格">
+                                                            <div class="cc-select" style="margin-left: 1%;">
+                                                                <button type="button" class="btn btn-success"><i class="fa fa-edit"></i>自定义价格区间</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">活动时间</label>
+                                                        <div class="col-md-9">
+                                                            <div class="input-group input-daterange">
+                                                                <span class="input-group-addon">开始时间</span>
+                                                                <input type="text" class="form-control media-input" name="start" placeholder="开始时间">
+                                                                <span class="input-group-addon">&nbsp;结束时间</span>
+                                                                <input type="text" class="form-control media-input" name="end" placeholder="结束时间">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">原用途(选填)</label>
+                                                        <div class="col-md-9">
+                                                            <textarea class="form-control media-input" placeholder="原用途" rows="5"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">货物内容</label>
+                                                        <div class="col-md-9">
+                                                            <textarea class="form-control media-input" placeholder="组成成分及含量，外观成色，是否需要人工分选" rows="10"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">图片上传</label>
+                                                        <div class="col-md-9">
+                                                            <div class="media-text">
+                                                                @include('layouts.upload')
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- end col-4 -->
-                                    <!-- begin col-4 -->
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Pasword</label>
-                                            <div class="controls">
-                                                <input type="password" name="password" placeholder="Your password" class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end col-4 -->
-                                    <!-- begin col-4 -->
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Confirm Pasword</label>
-                                            <div class="controls">
-                                                <input type="password" name="password2" placeholder="Confirmed password" class="form-control" />
-                                            </div>
-                                        </div>
+                                        <!-- end panel -->
                                     </div>
                                     <!-- end col-6 -->
                                 </div>
@@ -172,9 +329,13 @@
                         <!-- begin wizard step-4 -->
                         <div>
                             <div class="jumbotron m-b-0 text-center">
-                                <h1>Login Successfully</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat commodo porttitor. Vivamus eleifend, arcu in tincidunt semper, lorem odio molestie lacus, sed malesuada est lacus ac ligula. Aliquam bibendum felis id purus ullamcorper, quis luctus leo sollicitudin. </p>
-                                <p><a class="btn btn-success btn-lg" role="button">Proceed to User Profile</a></p>
+                                <vue-cate
+                                    :rc1id.sync="resources.rc1_id"
+                                    :rc2id.sync="resources.rc2_id"
+                                    :rc3id.sync="resources.rc3_id"
+                                    :catedataurl.once="catedataurl"
+                                    >
+                                </vue-cate>
                             </div>
                         </div>
                         <!-- end wizard step-4 -->
@@ -190,7 +351,8 @@
 @endsection @section('my-js')
     <!-- ================== Vue JS ================== -->
     <script src="/layer/layer.js"></script>
-    <script src="{{asset('assets/plugins/bootstrap-fileinput/bootstrap-fileinput.js')}}" type="text/javascript"></script>
+    <script src="/vue/vue-city.js"></script>
+    <script src="/vue/vue-cate.js"></script>
     <!-- ================== END vue JS ================== -->
     <script>
     	$(document).ready(function() {
@@ -201,23 +363,21 @@
          $(function() {
             $("#wizard").bwizard({
                 validating:function(e,t){
-                    if(t.index==0){
-                        console.log(t)
-                        layer.msg('ddd');
-                        return false;
-                        // if(false===$('form[name="form-wizard"]').parsley().validate("wizard-step-1")){
-                        //     return false}
-                        // }else if(t.index==1){
-                        //     if(false===$('form[name="form-wizard"]').parsley().validate("wizard-step-2")){
-                        //         return false}
-                        // }else if(t.index==2){
-                        //     if(false===$('form[name="form-wizard"]').parsley().validate("wizard-step-3")){
-                        //         return false}
-                        // }
-                    }
+                    // if(t.index==0){
+                    //     if(Vr.resources.type == undefined){
+                    //         layer.msg('请选择服务类型',{icon:2});
+                    //         return false;
+                    //     }
+                    // }
+                    // if(t.index==1){
+                    //     if(Vr.resources.identity == undefined){
+                    //         layer.msg('请选择服务身份',{icon:2});
+                    //         return false;
+                    //     }
+                    // }
                 }
             });
-            new Vue({
+            var Vr = new Vue({
                 http: {
                     root: '/root',
                     headers: {
@@ -226,47 +386,47 @@
                 },
                 el: '#addResources',
                 data: {
-                    article:{category_id:0},
-                    msg:'',
-                    load:null,
+                    resources:{
+                        province:'',
+                        city:'',
+                        district:'',
+                        provincecode:'',
+                        citycode:'',
+                        districtcode:'',
+                        rc1_id:'',
+                        rc2_id:'',
+                        rc2_id:'',
+                    },
+                    targetA:0,
+                    identityA:0,
+                    btnSuccess:'btn-success',
+                    btnWhite:'btn-white',
+                    nitialPreview: [],
+                    initialPreviewConfig: [],
+                    showUpload:true,
+                    showRemove:true,
+                    citydataurl:"{{url('admin/area')}}",
+                    catedataurl:"{{url('admin/cate')}}",
                 },
-                created: function (){
-                    this.$set('article',{!! $article !!})
-                    if(this.article.id > 0){
-                        $("#articleImg").attr('src',this.article.img);
-                        $("#container").html(this.article.content);
-                    }else{
-                        this.$set('article.category_id',0);
-                    }
+                components:{
+                    vueCity: vueCity,
+                    vueCate: vueCate,
                 },
                 methods: {
-                    addArticle: function(){
-                        this.$set('load',layer.load());
-                        this.article.category_id = $('#category_id').val();
-                        this.article.content = ue.getContent();
-                        this.article.img = $("#articleImg")[0].src;
-                        if($(".fileinput-preview").find('img').length > 0){
-                            this.article.base64 = $(".fileinput-preview").find('img')[0].src;
-                        }
-                        if(this.article.id != undefined && this.article.id > 0){
-                            this.updateArticle(this.article);
-                        }else{
-                            this.createArticle(this.article);
-                        }
+                    /**
+                     *  [target 目标选择]
+                     */
+                    target:function(target,targetA){
+                        this.$set('targetA',targetA);
+                        this.resources.type = target;
+                        this.resources.service = targetA;
                     },
-                    createArticle: function (data){
-                        this.$http.post("{{url('/admin/article')}}",data).then(function (response){
-                            this.callback(response);
-                        }, function (response) {
-                            console.log(response)
-                        });
-                    },
-                    updateArticle: function (data){
-                        this.$http.put("{{url('/admin/article')}}/"+data.id,data).then(function (response){
-                            this.callback(response);
-                        }, function (response) {
-                            console.log(response)
-                        });
+                    /**
+                     *  [identity 身份选择]
+                     */
+                    identity:function(identity){
+                        this.$set('identityA',identity);
+                        this.resources.identity = identity;
                     },
                     /**
                      *  [callback 返回响应]
@@ -296,6 +456,48 @@
                         }
                     }
                 }
+            });
+            $("#upload-input").fileinput({
+                maxFileCount: 6, //表示允许同时上传的最大文件个数
+                allowedFileExtensions: ["jpg", "png", "gif"],
+                uploadUrl: "/admin/qiniu/upload",
+                language: 'zh',
+                uploadAsync: false,
+                overwriteInitial: false,
+                // maxImageWidth: 200,
+                // maxImageHeight: 150,
+                showUpload:Vr.showUpload,
+                showRemove:false,
+                maxFileSize:6144, //表示允许同时上传的图片不能6M
+            }).on('filebatchpreupload', function(event, data) {
+                // var n = data.files.length, files = n > 1 ? n + ' files' : 'one file';
+                if (Vr.showUpload == false) {
+                    return {
+                        message: "图片尺寸或大小错误，不能上传!",
+                        data:{}
+                    };
+                }
+            }).on('filebatchuploadsuccess', function(event, data, previewId, index) {
+                response = data.response;
+                console.log(data);
+                // $.each(data.files, function(key, file) {
+                //     var fname = response[key].file;
+                //     Vr.nitialPreview.push("<img style='height:160px' src='"+fname+"'>");
+                //     Vr.initialPreviewConfig.push({caption: "", url: "/admin/upload/delete", key: ((key++)-1)})
+                // });
+                console.log(response);
+                Vr.$set('showRemove',false);
+            }).on('fileuploaderror', function(event, data, msg) { // 上传错误
+                console.log(msg);
+               Vr.$set('showUpload',false);
+            }).on('filesuccessremove', function(event, id) {
+                if (id) {
+                   console.log(id);
+                } else {
+                    return false; // abort the thumbnail removal
+                }
+            }).on('filecleared', function(event) {
+                console.log('filecleared');
             });
         });
     </script>

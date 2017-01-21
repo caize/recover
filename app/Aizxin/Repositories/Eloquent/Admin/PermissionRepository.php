@@ -23,29 +23,6 @@ class PermissionRepository extends Repository
 	 */
 	public $fillable = ['id', 'display_name','parent_id','sort','name','icon'];
 	/**
-	 *  [sortMenu description]
-	 *  izxin.com
-	 *  @author qingfeng
-	 *  @DateTime 2016-09-18T22:19:20+0800
-	 *  @param    [type]                   $menus [description]
-	 *  @param    integer                  $pid   [description]
-	 *  @return   [type]                          [description]
-	 */
-	public function sortMenu($menus,$pid=0)
-	{
-		$arr = [];
-		if (empty($menus)) {
-			return '';
-		}
-		foreach ($menus as $key => $v) {
-			if ($v['parent_id'] == $pid) {
-				$arr[$key] = $v;
-				$arr[$key]['child'] = self::sortMenu($menus,$v['id']);
-			}
-		}
-		return $arr;
-	}
-	/**
 	 *  [getPermissionParent 顶级权限]
 	 *  izxin.com
 	 *  @author qingfeng
@@ -76,7 +53,7 @@ class PermissionRepository extends Repository
 				->get()
 				->toArray();
 		if($menus){
-			$menuList = $this->sortMenu($menus);
+			$menuList = sort_parent($menus);
 			foreach ($menuList as $key => &$v) {
 				if ($v['child']) {
 					$sort = array_column($v['child'], 'sort');

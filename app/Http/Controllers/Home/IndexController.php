@@ -9,6 +9,6 @@ class IndexController extends Controller
 {
     public function index()
     {
-        dd('pc');
+        dd(cc('WEB_SITE_ADDRESS'));
     }
 }

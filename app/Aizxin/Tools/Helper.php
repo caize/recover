@@ -27,46 +27,33 @@ if (! function_exists('sort_parent')) {
         }
         foreach ($menus as $key => $v) {
             if ($v['parent_id'] == $pid) {
-                $arr[$key] = $v;
-                $arr[$key]['child'] = sort_parent($menus,$v['id']);
+                $v['child'] = sort_parent($menus,$v['id']);
+                $arr[] = $v;
             }
         }
         return $arr;
     }
 }
 /**
- *  非递归迭代无限级分类
+ *  递归迭代无限级分类
  */
-if (! function_exists('aizxin_sort_parent')) {
+if (! function_exists('area_sort_parent')) {
     /**
-     *  [aizxin_sort_parent description]
+     *  [area_sort_parent description]
      */
-    function aizxin_sort_parent($list)
+    function area_sort_parent($menus,$pid=0)
     {
-        $return = [];//索引目录
-        $parent='';//根目录,
-
-        //数组预处理,这里的$v['id']一定要唯一,不然可能会出现被覆盖的情况
-
-        foreach ($list as $v)
-            $return[$v['id']] = [
-                'id' => $v['id'],
-                'name' => $v['name'],
-                'parent_id' => $v['parent_id'],
-                'child' => '',
-            ];
-
-
-        //将每个目录与父目录进行拼接,并找到根目录
-        //找到父路径,这里没有判断 $return[$v['pid']]['child']是否存在,
-        //TP5下或者在不存在的情况下可能会报错,自己加一下
-        foreach ($return as $k => $v) {
-            if ($v['parent_id'] >= 0)
-                $return[$v['parent_id']]['child'][$v['id']] = &$return[$k];
-            else
-                $parent = &$return[$k];
+        $arr = [];
+        if (empty($menus)) {
+            return '';
         }
-        return $return;
+        foreach ($menus as $key => $v) {
+            if ($v['parent_id'] == $pid) {
+                $v['children'] = area_sort_parent($menus,$v['code']);
+                $arr[] = $v;
+            }
+        }
+        return $arr;
     }
 }
 /**
@@ -155,3 +142,18 @@ if (! function_exists('respondWithErrors')) {
         ]);
     }
 }
+/**
+ * 读取网站信息
+ * @param string $message
+ * @param int $code
+ * @param string $status
+ * @return Response
+ */
+if (! function_exists('cc')) {
+
+    function cc($key)
+    {
+        return Cache::get(config('admin.globals.cache.config'))[$key];
+    }
+}
+

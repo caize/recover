@@ -495,11 +495,11 @@
 			// A value that indicates the text of back button.
 			// Code example:
 			// $("#element").bwizard("option", "backBtnText", "Back Button");
-			backBtnText: '&larr; Previous',
+			backBtnText: '&larr; 上一步',
 			// A value that indicates the text of next button.
 			// Code example:
 			// $("#element").bwizard("option", "nextBtnText", "next Button");
-			nextBtnText: 'Next &rarr;',
+			nextBtnText: '下一步 &rarr;',
 			// The add event handler. A function called when a panel is added.
 			// Default: null.
 			// Type: Function.

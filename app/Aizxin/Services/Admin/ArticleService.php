@@ -67,7 +67,7 @@ class ArticleService extends CommonService
     public function upload($request)
     {
         if ($request->hasFile('editormd-image-file')) {
-            $path = (new QiniuUpload())->uploadImage($request->file('editormd-image-file'));
+            $path = (new QiniuUpload())->uploadImage(config('admin.globals.imagePath.article'),$request->file('editormd-image-file'));
             return response()->json([
                 'success' => 1,
                 'message' => '上传成功',

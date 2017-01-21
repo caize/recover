@@ -78,4 +78,16 @@ class ResourcesCategoryController extends Controller
     {
         return $this->service->create($request);
     }
+    /**
+     *  [list description]
+     *  臭虫科技
+     *  @author chouchong
+     *  @DateTime 2017-01-21T17:55:16+0800
+     *  @param    string                   $value [description]
+     *  @return   [type]                          [description]
+     */
+    public function list()
+    {
+        return $this->service->findByParent();
+    }
 }
