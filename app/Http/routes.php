@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'web'],
     });
     Route::get('/area', 'AreaController@index');
     Route::get('/cate', 'ResourcesCategoryController@list');
+    Route::get('/unit', 'UnitController@index');
 });
 // pc端路由组
 Route::group(['namespace' => 'Home', 'middleware'=>'web'], function () {

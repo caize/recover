@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Aizxin\Repositories\Eloquent\AreaRepository;
+use Aizxin\Repositories\Eloquent\UnitRepository;
 
-class AreaController extends Controller
+class UnitController extends Controller
 {
     /**
      *  [$service 服务]
@@ -21,9 +21,9 @@ class AreaController extends Controller
      *  臭虫科技
      *  @author chouchong
      *  @DateTime 2017-01-20T17:21:41+0800
-     *  @param    AreaRepository           $repository [description]
+     *  @param    UnitRepository           $repository [description]
      */
-    public function __construct(AreaRepository $repository)
+    public function __construct(UnitRepository $repository)
     {
         $this->repository = $repository;
     }

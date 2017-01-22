@@ -10,12 +10,24 @@
     .cc-select{
         width: 28%;float: left;
     }
+    .ninputb{
+        width: 45%;float: left;display:block;
+    }
+    .display{
+        display:none;
+    }
+    .ainputb{
+        width: 100%;
+    }
+    .ainputw{
+        width: 55%;
+    }
     @media  only screen and (min-width: 1200px) {
         .media-input {
-            width: 50%;
+            width: 60%;
         }
         .media-text {
-            width: 52%;
+            width: 62%;
         }
         .cc-select{
             width: 14%;float: left;
@@ -80,35 +92,35 @@
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(1,1)" v-bind:class="[ targetA==1 ? btnSuccess : btnWhite]">我要销售</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(1,1)" v-bind:class="[ targetA==1 ? classType.btnSuccess : classType.btnWhite]">我要销售</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(1,2)" v-bind:class="[ targetA==2 ? btnSuccess : btnWhite]">我要求购</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(1,2)" v-bind:class="[ targetA==2 ? classType.btnSuccess : classType.btnWhite]">我要求购</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(2,3)" v-bind:class="[ targetA==3 ? btnSuccess : btnWhite]">我需要服务</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(2,3)" v-bind:class="[ targetA==3 ? classType.btnSuccess : classType.btnWhite]">我需要服务</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(2,4)" v-bind:class="[ targetA==4 ? btnSuccess : btnWhite]">我提供服务</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(2,4)" v-bind:class="[ targetA==4 ? classType.btnSuccess : classType.btnWhite]">我提供服务</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(3,5)" v-bind:class="[ targetA==5 ? btnSuccess : btnWhite]">免费信息</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="target(3,5)" v-bind:class="[ targetA==5 ? classType.btnSuccess : classType.btnWhite]">免费信息</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
@@ -133,35 +145,35 @@
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(1)" v-bind:class="[ identityA==1 ? btnSuccess : btnWhite]">企业/工厂</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(1)" v-bind:class="[ identityA==1 ? classType.btnSuccess : classType.btnWhite]">企业/工厂</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(2)" v-bind:class="[ identityA==2 ? btnSuccess : btnWhite]">回收/贸易商</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(2)" v-bind:class="[ identityA==2 ? classType.btnSuccess : classType.btnWhite]">回收/贸易商</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(3)" v-bind:class="[ identityA==3 ? btnSuccess : btnWhite]">加工/利用商</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(3)" v-bind:class="[ identityA==3 ? classType.btnSuccess : classType.btnWhite]">加工/利用商</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(4)" v-bind:class="[ identityA==4 ? btnSuccess : btnWhite]">个人/个体商户</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(4)" v-bind:class="[ identityA==4 ? classType.btnSuccess : classType.btnWhite]">个人/个体商户</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
                                     <!-- begin col-4 -->
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(5)" v-bind:class="[ identityA==5 ? btnSuccess : btnWhite]">机关/事业单位</button>
+                                            <button type="button" class="btn btn-lg m-r-5 m-b-5" @click="identity(5)" v-bind:class="[ identityA==5 ? classType.btnSuccess : classType.btnWhite]">机关/事业单位</button>
                                         </div>
                                     </div>
                                     <!-- end col-4 -->
@@ -213,9 +225,9 @@
                                                                 :province.sync="resources.province"
                                                                 :city.sync="resources.city"
                                                                 :district.sync="resources.district"
-                                                                :provincecode.sync="resources.provincecode"
-                                                                :citycode.sync="resources.citycode"
-                                                                :districtcode.sync="resources.districtcode"
+                                                                :provincename.sync="cityname.provincename"
+                                                                :cityname.sync="cityname.cityname"
+                                                                :districtname.sync="cityname.districtname"
                                                                 :citydataurl.once="citydataurl"
                                                                 >
                                                             </vue-city>
@@ -224,7 +236,10 @@
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label"></label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control media-input" placeholder="联系详细地址">
+                                                        <div class="media-input">
+                                                            <input type="text" v-if="cityname.provincename !=''"  class="form-control" v-bind:class="[cityname.provincename !=''?classType.ntextb:classType.display]" value="{{cityname.provincename}}{{cityname.cityname}}{{cityname.districtname}}" readonly="true" v-on:change="textw()">
+                                                            <input type="text" class="form-control" placeholder="联系详细地址" v-bind:class="[cityname.provincename !=''?classType.atextw:classType.atextb]">
+                                                        </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -236,27 +251,13 @@
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">种类类型</label>
                                                         <div class="col-md-9">
-                                                            <select class="form-control cc-select">
-                                                                <option>1</option>
-                                                                <option>2</option>
-                                                                <option>3</option>
-                                                                <option>4</option>
-                                                                <option>5</option>
-                                                            </select>
-                                                            <select class="form-control cc-select" style="margin-left: 2%;">
-                                                                <option>1</option>
-                                                                <option>2</option>
-                                                                <option>3</option>
-                                                                <option>4</option>
-                                                                <option>5</option>
-                                                            </select>
-                                                            <select class="form-control cc-select" style="margin-left: 2%;">
-                                                                <option>1</option>
-                                                                <option>2</option>
-                                                                <option>3</option>
-                                                                <option>4</option>
-                                                                <option>5</option>
-                                                            </select>
+                                                            <vue-cate
+                                                                :rc1id.sync="resources.rc1_id"
+                                                                :rc2id.sync="resources.rc2_id"
+                                                                :rc3id.sync="resources.rc3_id"
+                                                                :catedataurl.once="catedataurl"
+                                                                >
+                                                            </vue-cate>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -264,11 +265,8 @@
                                                         <div class="col-md-9">
                                                             <input type="text" class="form-control cc-select" placeholder="货物数量">
                                                             <select class="form-control cc-select" style="margin-left: 2%;">
-                                                                <option>1</option>
-                                                                <option>2</option>
-                                                                <option>3</option>
-                                                                <option>4</option>
-                                                                <option>5</option>
+                                                                <option v-bind:value="0">选择单位</option>
+                                                                <option v-for="v in units" v-bind:value="v.name">{{v.name}}</option>
                                                             </select>
                                                             <div class="cc-select" style="margin-left: 1%;">
                                                                 <button type="button" class="btn btn-success"><i class="fa fa-edit"></i>自定义单位</button>
@@ -329,13 +327,7 @@
                         <!-- begin wizard step-4 -->
                         <div>
                             <div class="jumbotron m-b-0 text-center">
-                                <vue-cate
-                                    :rc1id.sync="resources.rc1_id"
-                                    :rc2id.sync="resources.rc2_id"
-                                    :rc3id.sync="resources.rc3_id"
-                                    :catedataurl.once="catedataurl"
-                                    >
-                                </vue-cate>
+                                <p>ddd</p>
                             </div>
                         </div>
                         <!-- end wizard step-4 -->
@@ -354,152 +346,6 @@
     <script src="/vue/vue-city.js"></script>
     <script src="/vue/vue-cate.js"></script>
     <!-- ================== END vue JS ================== -->
-    <script>
-    	$(document).ready(function() {
-    		App.init();
-            FormPlugins.init();
-            // FormWizard.init();
-    	});
-         $(function() {
-            $("#wizard").bwizard({
-                validating:function(e,t){
-                    // if(t.index==0){
-                    //     if(Vr.resources.type == undefined){
-                    //         layer.msg('请选择服务类型',{icon:2});
-                    //         return false;
-                    //     }
-                    // }
-                    // if(t.index==1){
-                    //     if(Vr.resources.identity == undefined){
-                    //         layer.msg('请选择服务身份',{icon:2});
-                    //         return false;
-                    //     }
-                    // }
-                }
-            });
-            var Vr = new Vue({
-                http: {
-                    root: '/root',
-                    headers: {
-                        'X-CSRF-TOKEN': "<?php echo e(csrf_token()); ?>"
-                    }
-                },
-                el: '#addResources',
-                data: {
-                    resources:{
-                        province:'',
-                        city:'',
-                        district:'',
-                        provincecode:'',
-                        citycode:'',
-                        districtcode:'',
-                        rc1_id:'',
-                        rc2_id:'',
-                        rc2_id:'',
-                    },
-                    targetA:0,
-                    identityA:0,
-                    btnSuccess:'btn-success',
-                    btnWhite:'btn-white',
-                    nitialPreview: [],
-                    initialPreviewConfig: [],
-                    showUpload:true,
-                    showRemove:true,
-                    citydataurl:"<?php echo e(url('admin/area')); ?>",
-                    catedataurl:"<?php echo e(url('admin/cate')); ?>",
-                },
-                components:{
-                    vueCity: vueCity,
-                    vueCate: vueCate,
-                },
-                methods: {
-                    /**
-                     *  [target 目标选择]
-                     */
-                    target:function(target,targetA){
-                        this.$set('targetA',targetA);
-                        this.resources.type = target;
-                        this.resources.service = targetA;
-                    },
-                    /**
-                     *  [identity 身份选择]
-                     */
-                    identity:function(identity){
-                        this.$set('identityA',identity);
-                        this.resources.identity = identity;
-                    },
-                    /**
-                     *  [callback 返回响应]
-                     */
-                    callback: function(response){
-                        var _this = this;
-                        if(response.data.code == 400){
-                            layer.msg(response.data.message,{icon: 2});
-                            layer.close(_this.load);
-                        }
-                        if(response.data.code == 422){
-                            layer.msg(response.data.message,{icon: 2});
-                            layer.close(_this.load);
-                        }
-                        if(response.data.code == 200){
-                            //此处用setTimeout演示ajax的回调
-                            setTimeout(function(){
-                                layer.close(_this.load);
-                                _this.$set('load',null);
-                                layer.msg(response.data.message,{
-                                  icon: 1,
-                                  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                                }, function(){
-                                    window.location.href = "<?php echo e(url('/admin/article/index')); ?>";
-                                });
-                            }, 3000);
-                        }
-                    }
-                }
-            });
-            $("#upload-input").fileinput({
-                maxFileCount: 6, //表示允许同时上传的最大文件个数
-                allowedFileExtensions: ["jpg", "png", "gif"],
-                uploadUrl: "/admin/qiniu/upload",
-                language: 'zh',
-                uploadAsync: false,
-                overwriteInitial: false,
-                // maxImageWidth: 200,
-                // maxImageHeight: 150,
-                showUpload:Vr.showUpload,
-                showRemove:false,
-                maxFileSize:6144, //表示允许同时上传的图片不能6M
-            }).on('filebatchpreupload', function(event, data) {
-                // var n = data.files.length, files = n > 1 ? n + ' files' : 'one file';
-                if (Vr.showUpload == false) {
-                    return {
-                        message: "图片尺寸或大小错误，不能上传!",
-                        data:{}
-                    };
-                }
-            }).on('filebatchuploadsuccess', function(event, data, previewId, index) {
-                response = data.response;
-                console.log(data);
-                // $.each(data.files, function(key, file) {
-                //     var fname = response[key].file;
-                //     Vr.nitialPreview.push("<img style='height:160px' src='"+fname+"'>");
-                //     Vr.initialPreviewConfig.push({caption: "", url: "/admin/upload/delete", key: ((key++)-1)})
-                // });
-                console.log(response);
-                Vr.$set('showRemove',false);
-            }).on('fileuploaderror', function(event, data, msg) { // 上传错误
-                console.log(msg);
-               Vr.$set('showUpload',false);
-            }).on('filesuccessremove', function(event, id) {
-                if (id) {
-                   console.log(id);
-                } else {
-                    return false; // abort the thumbnail removal
-                }
-            }).on('filecleared', function(event) {
-                console.log('filecleared');
-            });
-        });
-    </script>
+    <script src="/js/admin/resources/add-resources.js"></script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,4 +1,4 @@
-@extends('layouts.admin') @section('style')
+ <?php $__env->startSection('style'); ?>
 <style>
     .input {
         width: 500px;
@@ -7,17 +7,17 @@
         width: 500px;
     }
 </style>
-@endsection @section('content')
+<?php $__env->stopSection(); ?> <?php $__env->startSection('content'); ?>
 <div id="content" class="content">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
-        <li><a href="javascript:;">{!! trans('admin.rbac.rbacM') !!}</a></li>
+        <li><a href="javascript:;"><?php echo trans('admin.rbac.rbacM'); ?></a></li>
         <li><a href="javascript:;">角色列表</a></li>
         <li class="active">角色添加</li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">{!! trans('admin.rbac.rbacM') !!}<small>...</small></h1>
+    <h1 class="page-header"><?php echo trans('admin.rbac.rbacM'); ?><small>...</small></h1>
     <!-- begin row -->
     <div class="row">
         <!-- begin col-12 -->
@@ -57,13 +57,13 @@
                                             placeholder="这里填写当前角色的简要描述"></textarea>
                                     </div>
                                 </div>
-                                @permission('admin.role.store')
+                                <?php if (\Entrust::can(('admin.role.store'))) : ?>
                                 <div class="form-group">
                                     <div class="col-md-9 col-md-offset-3">
                                         <button @click="addRole()" :disabled="$roleValidation.invalid" type="button" class="btn btn-success btn-lg m-r-5" style="width: 100px">保 存</button>
                                     </div>
                                 </div>
-                                @endpermission
+                                <?php endif; // Entrust::can ?>
                                 <div class="form-group" v-if="msg">
                                     <div class="col-md-9 col-md-offset-3">
                                         <div class="alert alert-danger fade in m-b-15">
@@ -84,14 +84,15 @@
     </div>
     <!-- end row -->
 </div>
-@endsection @section('my-js')
+<?php $__env->stopSection(); ?> <?php $__env->startSection('my-js'); ?>
     <!-- ================== Vue JS ================== -->
     <script src="/layer/layer.js"></script>
     <!-- ================== END vue JS ================== -->
     <script>
     $(document).ready(function() {
-        Aizxin.setV({!! $role !!});
+        Aizxin.setV(<?php echo $role; ?>);
     });
     </script>
     <script src="/js/admin/rbac/add-role.js"></script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

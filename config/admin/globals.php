@@ -9,6 +9,7 @@ return [
 		],
 		'config'=>'config',
 		'area'=>'area',
+		'unit'=>'unit',
 	],
 	// 七牛图片上传路径
 	'imagePath' => [

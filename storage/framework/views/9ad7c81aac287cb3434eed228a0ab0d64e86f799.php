@@ -1,4 +1,4 @@
-@extends('layouts.admin') @section('style')
+ <?php $__env->startSection('style'); ?>
 <style>
     .input {
         width: 500px;
@@ -7,17 +7,17 @@
         width: 500px;
     }
 </style>
-@endsection @section('content')
+<?php $__env->stopSection(); ?> <?php $__env->startSection('content'); ?>
 <div id="content" class="content">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
-        <li><a href="javascript:;">{!! trans('admin.rbac.rbacM') !!}</a></li>
-        <li><a href="javascript:;">{!! trans('admin.rbac.permission.index') !!}</a></li>
-        <li class="active">{!! trans('admin.rbac.permission.add') !!}</li>
+        <li><a href="javascript:;"><?php echo trans('admin.rbac.rbacM'); ?></a></li>
+        <li><a href="javascript:;"><?php echo trans('admin.rbac.permission.index'); ?></a></li>
+        <li class="active"><?php echo trans('admin.rbac.permission.add'); ?></li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">{!! trans('admin.rbac.rbacM') !!}<small>...</small></h1>
+    <h1 class="page-header"><?php echo trans('admin.rbac.rbacM'); ?><small>...</small></h1>
     <!-- begin row -->
     <div class="row">
         <!-- begin col-12 -->
@@ -31,7 +31,7 @@
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                     </div>
-                    <h4 class="panel-title">{!! trans('admin.rbac.permission.index') !!}</h4>
+                    <h4 class="panel-title"><?php echo trans('admin.rbac.permission.index'); ?></h4>
                 </div>
                 <div class="panel-body" id="node">
                     <validator name="nodeValidation">
@@ -43,20 +43,20 @@
                                     <div class="col-md-9">
                                         <select class="form-control selectpicker input" id="parent_id" data-size="10" v-model="p.parent_id" data-live-search="true" data-style="btn-white">
                                         <option value="0">顶级权限</option>
-                                        @foreach($list as $vo)
-                                        @if($vo['id']==$rule['parent_id'])
-                                        <option value="{{$vo['id']}}" selected>{{$vo['display_name']}}</option>
-                                        @else
-                                        <option value="{{$vo['id']}}">{{$vo['display_name']}}</option>
-                                        @endif
-                                        @foreach($vo['child'] as $v)
-                                        @if($v['id']==$rule['parent_id'])
-                                        <option value="{{$v['id']}}" selected>┗━{{$v['display_name']}}</option>
-                                        @else
-                                        <option value="{{$v['id']}}">┗━{{$v['display_name']}}</option>
-                                        @endif
-                                        @endforeach
-                                        @endforeach
+                                        <?php foreach($list as $vo): ?>
+                                        <?php if($vo['id']==$rule['parent_id']): ?>
+                                        <option value="<?php echo e($vo['id']); ?>" selected><?php echo e($vo['display_name']); ?></option>
+                                        <?php else: ?>
+                                        <option value="<?php echo e($vo['id']); ?>"><?php echo e($vo['display_name']); ?></option>
+                                        <?php endif; ?>
+                                        <?php foreach($vo['child'] as $v): ?>
+                                        <?php if($v['id']==$rule['parent_id']): ?>
+                                        <option value="<?php echo e($v['id']); ?>" selected>┗━<?php echo e($v['display_name']); ?></option>
+                                        <?php else: ?>
+                                        <option value="<?php echo e($v['id']); ?>">┗━<?php echo e($v['display_name']); ?></option>
+                                        <?php endif; ?>
+                                        <?php endforeach; ?>
+                                        <?php endforeach; ?>
                                     </select>
                                     </div>
                                 </div>
@@ -97,13 +97,13 @@
                                         <input type="checkbox" v-model="p.is_menu"  data-render="switchery" data-theme="default"  />
                                     </div>
                                 </div>
-                                @permission('admin.permission.store')
+                                <?php if (\Entrust::can(('admin.permission.store'))) : ?>
                                 <div class="form-group">
                                     <div class="col-md-9 col-md-offset-3">
                                         <button @click="addNode()" :disabled="$nodeValidation.invalid" type="button" class="btn btn-success btn-lg m-r-5" style="width: 100px">保 存</button>
                                     </div>
                                 </div>
-                                @endpermission
+                                <?php endif; // Entrust::can ?>
                                 <div class="form-group" v-if="msg">
                                     <div class="col-md-9 col-md-offset-3">
                                         <div class="alert alert-danger fade in m-b-15">
@@ -124,14 +124,15 @@
     </div>
     <!-- end row -->
 </div>
-@endsection @section('my-js')
+<?php $__env->stopSection(); ?> <?php $__env->startSection('my-js'); ?>
     <!-- ================== Vue JS ================== -->
     <script src="/layer/layer.js"></script>
     <!-- ================== END vue JS ================== -->
     <script>
         $(document).ready(function() {
-            Aizxin.setV({!! $rules !!});
+            Aizxin.setV(<?php echo $rules; ?>);
         });
     </script>
     <script src="/js/admin/rbac/add-permission.js"></script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -52,6 +52,14 @@
 	<script src="/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
 	<script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<?php echo $__env->yieldContent('style'); ?>
+	<script src="/js/common.js"></script>
+	<script>
+		window.conf ={
+			APP:'<?php echo e(env("APP_URL")); ?>',
+			SUFFIX:'',
+			'TOKEN': "<?php echo e(csrf_token()); ?>"
+		}
+	</script>
 </head>
 <body>
 	<!-- begin #page-loader -->

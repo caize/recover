@@ -52,6 +52,14 @@
 	<script src="/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
 	<script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	@yield('style')
+	<script src="/js/common.js"></script>
+	<script>
+		window.conf ={
+			APP:'{{env("APP_URL")}}',
+			SUFFIX:'',
+			'TOKEN': "{{csrf_token()}}"
+		}
+	</script>
 </head>
 <body>
 	<!-- begin #page-loader -->

@@ -1,4 +1,4 @@
-@extends('layouts.admin') @section('content')
+ <?php $__env->startSection('content'); ?>
 <div id="content" class="content">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
@@ -32,9 +32,9 @@
                             <div class="dataTables_length" id="data-table_length">
                                 <label>显示
                                     <vue-select @change-page="fetchItems" :pagination.sync="pagination" :page-size.sync="pageSize" :name.sync="name"></vue-select>
-                                    @permission('admin.role.create')
-                                    <a href="{{url('admin/role/create')}}"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;">角色添加</a>
-                                    @endpermission
+                                    <?php if (\Entrust::can(('admin.role.create'))) : ?>
+                                    <a href="<?php echo e(url('admin/role/create')); ?>"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;">角色添加</a>
+                                    <?php endif; // Entrust::can ?>
                                 </label>
                             </div>
                             <vue-input @change-page="fetchItems" :pagination.sync="pagination" :page-size.sync="pageSize" :name.sync="name" :title="title"></vue-input>
@@ -54,29 +54,29 @@
                                 <tbody>
                                     <template v-for="vo in items">
                                         <tr class="gradeA odd" role="row" >
-                                            <td class="sorting_1">@{{vo.id}}</td>
-                                            <td>@{{vo.display_name}}</td>
+                                            <td class="sorting_1">{{vo.id}}</td>
+                                            <td>{{vo.display_name}}</td>
                                             <td>
-                                                @permission('admin.role.show')
+                                                <?php if (\Entrust::can(('admin.role.show'))) : ?>
                                                 <a type="button" class="btn btn-success" @click="permission(vo.id)" href="#modal-dialog" data-toggle="modal">
                                                     <i class="fa fa-group"></i>
                                                     <span>权限分配</span>
                                                 </a>
-                                                @endpermission
+                                                <?php endif; // Entrust::can ?>
                                             </td>
                                             <td>
-                                                @permission('admin.role.edit')
-                                                <a href="{{url('admin/role')}}/@{{vo.id}}/edit" class="btn btn-primary delete">
+                                                <?php if (\Entrust::can(('admin.role.edit'))) : ?>
+                                                <a href="<?php echo e(url('admin/role')); ?>/{{vo.id}}/edit" class="btn btn-primary delete">
                                                 <i class="fa fa-edit"></i>
                                                 <span>修改</span>
                                                 </a>
-                                                 @endpermission
-                                                 @permission('admin.role.destroy')
+                                                 <?php endif; // Entrust::can ?>
+                                                 <?php if (\Entrust::can(('admin.role.destroy'))) : ?>
                                                 <button type="button" class="btn btn-danger delete" @click="destroy(vo.id)">
                                                     <i class="glyphicon glyphicon-trash"></i>
                                                     <span>删除</span>
                                                 </button>
-                                                @endpermission
+                                                <?php endif; // Entrust::can ?>
                                             </td>
                                         </tr>
                                     </template>
@@ -104,8 +104,8 @@
                                     <div class="col-lg-12 col-sm-12 col-xs-12">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" class="inverted" name="rules" value="@{{vo.id}}" id="rules_@{{vo.id}}">
-                                                <span class="text">@{{vo.display_name}}</span>
+                                                <input type="checkbox" class="inverted" name="rules" value="{{vo.id}}" id="rules_{{vo.id}}">
+                                                <span class="text">{{vo.display_name}}</span>
                                             </label>
                                         </div>
                                     </div>
@@ -115,16 +115,16 @@
                                         <div class="col-lg-12 col-sm-12 col-xs-12 r2" style="background:#ccc;">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="inverted" name="rules" value="@{{v.id}}" id="rules_@{{v.id}}">
-                                                    <span class="text">@{{v.display_name}}</span>
+                                                    <input type="checkbox" class="inverted" name="rules" value="{{v.id}}" id="rules_{{v.id}}">
+                                                    <span class="text">{{v.display_name}}</span>
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-sm-2 col-xs-2 r3" v-for="t in v.child">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" class="inverted" name="rules" value="@{{t.id}}" id="rules_@{{t.id}}">
-                                                    <span class="text">@{{t.display_name}}</span>
+                                                    <input type="checkbox" class="inverted" name="rules" value="{{t.id}}" id="rules_{{t.id}}">
+                                                    <span class="text">{{t.display_name}}</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -148,14 +148,15 @@
     <!-- end row -->
 </div>
 </div>
-@endsection @section('my-js')
+<?php $__env->stopSection(); ?> <?php $__env->startSection('my-js'); ?>
 <script src="/layer/layer.js"></script>
 <script src="/assets/js/ui-modal-notification.demo.min.js"></script>
 <script src="/vue/vue-pagination.js"></script>
 <script>
     $(function() {
-        Aizxin.setV({!! $rule !!});
+        Aizxin.setV(<?php echo $rule; ?>);
     })
 </script>
 <script src="/js/admin/rbac/role.js"></script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

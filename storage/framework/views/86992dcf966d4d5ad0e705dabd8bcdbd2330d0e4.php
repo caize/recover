@@ -1,4 +1,4 @@
-@extends('layouts.admin') @section('content')
+ <?php $__env->startSection('content'); ?>
 <div id="content" class="content">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
@@ -32,9 +32,9 @@
                             <div class="dataTables_length" id="data-table_length">
                                 <label>显示
                                     <vue-select @change-page="fetchItems" :pagination.sync="pagination" :page-size.sync="pageSize" :name.sync="name"></vue-select>
-                                    @permission('admin.permission.create')
-                                    <a href="{{url('admin/permission/create')}}"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;">权限添加</a>
-                                    @endpermission
+                                    <?php if (\Entrust::can(('admin.permission.create'))) : ?>
+                                    <a href="<?php echo e(url('admin/permission/create')); ?>"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;">权限添加</a>
+                                    <?php endif; // Entrust::can ?>
                                 </label>
                             </div>
                             <vue-input @change-page="fetchItems" :pagination.sync="pagination" :page-size.sync="pageSize" :name.sync="name" :title="title"></vue-input>
@@ -53,62 +53,62 @@
                                 <tbody>
                                     <template v-for="vo in items">
                                         <tr class="gradeA odd" role="row" >
-                                            <td class="sorting_1">@{{vo.id}}</td>
-                                            <td>@{{vo.display_name}}</td>
-                                            <td>@{{vo.sort}}</td>
+                                            <td class="sorting_1">{{vo.id}}</td>
+                                            <td>{{vo.display_name}}</td>
+                                            <td>{{vo.sort}}</td>
                                             <td>
-                                                @permission('admin.permission.edit')
-                                                <a href="{{url('admin/permission')}}/@{{vo.id}}/edit" class="btn btn-primary delete">
+                                                <?php if (\Entrust::can(('admin.permission.edit'))) : ?>
+                                                <a href="<?php echo e(url('admin/permission')); ?>/{{vo.id}}/edit" class="btn btn-primary delete">
                                                 <i class="fa fa-edit"></i>
                                                 <span>修改</span>
                                                 </a>
-                                                @endpermission
-                                                @permission('admin.permission.destroy')
+                                                <?php endif; // Entrust::can ?>
+                                                <?php if (\Entrust::can(('admin.permission.destroy'))) : ?>
                                                 <button type="button" class="btn btn-danger delete" @click="destroy(vo.id)">
                                                     <i class="glyphicon glyphicon-trash"></i>
                                                     <span>删除</span>
                                                 </button>
-                                                @endpermission
+                                                <?php endif; // Entrust::can ?>
                                             </td>
                                         </tr>
                                             <template v-for="v in vo.child">
                                                 <tr class="gradeA even" role="row" >
-                                                    <td class="sorting_1">@{{v.id}}</td>
-                                                    <td>┗━@{{v.display_name}}</td>
-                                                    <td>@{{v.sort}}</td>
+                                                    <td class="sorting_1">{{v.id}}</td>
+                                                    <td>┗━{{v.display_name}}</td>
+                                                    <td>{{v.sort}}</td>
                                                     <td>
-                                                        @permission('admin.permission.edit')
-                                                        <a href="{{url('admin/permission')}}/@{{v.id}}/edit" class="btn btn-primary delete">
+                                                        <?php if (\Entrust::can(('admin.permission.edit'))) : ?>
+                                                        <a href="<?php echo e(url('admin/permission')); ?>/{{v.id}}/edit" class="btn btn-primary delete">
                                                             <i class="fa fa-edit"></i>
                                                             <span>修改</span>
                                                         </a>
-                                                        @endpermission
-                                                        @permission('admin.permission.destroy')
+                                                        <?php endif; // Entrust::can ?>
+                                                        <?php if (\Entrust::can(('admin.permission.destroy'))) : ?>
                                                         <button type="button" class="btn btn-danger delete" @click="destroy(v.id)">
                                                             <i class="glyphicon glyphicon-trash"></i>
                                                             <span>删除</span>
                                                         </button>
-                                                        @endpermission
+                                                        <?php endif; // Entrust::can ?>
                                                     </td>
                                                 </tr>
                                                 <template v-for="t in v.child">
                                                     <tr class="gradeA even" role="row" >
-                                                        <td class="sorting_1">@{{t.id}}</td>
-                                                        <td>┗━━@{{t.display_name}}</td>
-                                                        <td>@{{t.sort}}</td>
+                                                        <td class="sorting_1">{{t.id}}</td>
+                                                        <td>┗━━{{t.display_name}}</td>
+                                                        <td>{{t.sort}}</td>
                                                         <td>
-                                                            @permission('admin.permission.edit')
-                                                            <a href="{{url('admin/permission')}}/@{{t.id}}/edit" class="btn btn-primary delete">
+                                                            <?php if (\Entrust::can(('admin.permission.edit'))) : ?>
+                                                            <a href="<?php echo e(url('admin/permission')); ?>/{{t.id}}/edit" class="btn btn-primary delete">
                                                                 <i class="fa fa-edit"></i>
                                                                 <span>修改</span>
                                                             </a>
-                                                            @endpermission
-                                                            @permission('admin.permission.destroy')
+                                                            <?php endif; // Entrust::can ?>
+                                                            <?php if (\Entrust::can(('admin.permission.destroy'))) : ?>
                                                             <button type="button" class="btn btn-danger delete" @click="destroy(t.id)">
                                                                 <i class="glyphicon glyphicon-trash"></i>
                                                                 <span>删除</span>
                                                             </button>
-                                                            @endpermission
+                                                            <?php endif; // Entrust::can ?>
                                                     </td>
                                                     </tr>
                                                 </template>
@@ -127,7 +127,8 @@
     <!-- end row -->
 </div>
 </div>
-@endsection @section('my-js')
+<?php $__env->stopSection(); ?> <?php $__env->startSection('my-js'); ?>
 <script src="/layer/layer.js"></script>
 <script src="/vue/vue-pagination.js"></script>
-<script src="/js/admin/rbac/permission.js"></script> @endsection
+<script src="/js/admin/rbac/permission.js"></script> <?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
