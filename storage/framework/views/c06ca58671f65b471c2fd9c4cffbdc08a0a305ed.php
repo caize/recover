@@ -1,4 +1,4 @@
-@extends('layouts.admin') @section('content')
+ <?php $__env->startSection('content'); ?>
 <div id="content" class="content">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
@@ -32,9 +32,9 @@
                             <div class="dataTables_length" id="data-table_length">
                                 <label>显示
                                     <vue-select @change-page="fetchItems" :pagination.sync="pagination" :page-size.sync="pageSize" :name.sync="name"></vue-select>
-                                    @permission('admin.user.create')
-                                    <a href="{{url('admin/user/create')}}"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;">权限添加</a>
-                                    @endpermission
+                                    <?php if (\Entrust::can(('admin.user.create'))) : ?>
+                                    <a href="<?php echo e(url('admin/user/create')); ?>"  class="btn btn-primary m-r-5 m-b-5" style="height: 32px;margin-top: 4px;">权限添加</a>
+                                    <?php endif; // Entrust::can ?>
                                 </label>
                             </div>
                             <vue-input @change-page="fetchItems" :pagination.sync="pagination" :page-size.sync="pageSize" :name.sync="name" :title="title"></vue-input>
@@ -56,30 +56,30 @@
                                 <tbody>
                                     <template v-for="vo in items">
                                         <tr class="gradeA odd" role="row" >
-                                            <td class="sorting_1">@{{vo.id}}</td>
-                                            <td>@{{vo.name}}</td>
-                                            <td>@{{vo.email}}</td>
+                                            <td class="sorting_1">{{vo.id}}</td>
+                                            <td>{{vo.name}}</td>
+                                            <td>{{vo.email}}</td>
                                             <td>
-                                                @permission('admin.user.show')
+                                                <?php if (\Entrust::can(('admin.user.show'))) : ?>
                                                 <a type="button" class="btn btn-success" @click="userRole(vo.id)" href="#modal-dialog" data-toggle="modal">
                                                 <i class="fa fa-user"></i>
                                                 <span>修改角色</span>
                                                 </a>
-                                                 @endpermission
+                                                 <?php endif; // Entrust::can ?>
                                             </td>
                                             <td>
-                                                @permission('admin.user.edit')
-                                                <a href="{{url('admin/user')}}/@{{vo.id}}/edit" class="btn btn-primary delete">
+                                                <?php if (\Entrust::can(('admin.user.edit'))) : ?>
+                                                <a href="<?php echo e(url('admin/user')); ?>/{{vo.id}}/edit" class="btn btn-primary delete">
                                                 <i class="fa fa-edit"></i>
                                                 <span>修改</span>
                                                 </a>
-                                                 @endpermission
-                                                 @permission('admin.user.destroy')
+                                                 <?php endif; // Entrust::can ?>
+                                                 <?php if (\Entrust::can(('admin.user.destroy'))) : ?>
                                                 <button type="button" class="btn btn-danger delete" @click="destroy(vo.id)">
                                                     <i class="glyphicon glyphicon-trash"></i>
                                                     <span>删除</span>
                                                 </button>
-                                                @endpermission
+                                                <?php endif; // Entrust::can ?>
                                             </td>
                                         </tr>
                                     </template>
@@ -100,7 +100,7 @@
                             <div class="container" style="width: 100%">
                                 <select class="form-control selectpicker input" data-size="10" v-model="user.role_id" data-live-search="true" data-style="btn-white">
                                         <option v-bind:value="0">角色分配</option>
-                                        <option v-bind:value="vo.id" v-for="vo in role">@{{vo.display_name}}</option>
+                                        <option v-bind:value="vo.id" v-for="vo in role">{{vo.display_name}}</option>
                                     </select>
                             </div>
                         </div>
@@ -120,13 +120,14 @@
     <!-- end row -->
 </div>
 </div>
-@endsection @section('my-js')
+<?php $__env->stopSection(); ?> <?php $__env->startSection('my-js'); ?>
 <script src="/layer/layer.js"></script>
 <script src="/vue/vue-pagination.js"></script>
 <script>
     $(document).ready(function() {
-        Aizxin.setV({!! $role !!});
+        Aizxin.setV(<?php echo $role; ?>);
     });
 </script>
 <script src="/js/admin/rbac/user.js"></script>
- @endsection
+ <?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
