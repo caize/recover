@@ -6,7 +6,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>管理系统后台 | v1</title>
+	<title>管理系统后台</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />

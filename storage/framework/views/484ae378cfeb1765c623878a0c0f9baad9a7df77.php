@@ -79,7 +79,7 @@
                                 <small>.</small>
                             </li>
                             <li>
-                                操作完成
+                                图片上传
                                 <small>.</small>
                             </li>
                         </ol>
@@ -199,23 +199,24 @@
                                         <!-- begin panel -->
                                         <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
                                             <div class="panel-body">
-                                                <form class="form-horizontal">
-                                                    <div class="form-group">
+                                            <validator name="AddReValidation">
+                                                <form class="form-horizontal" novalidate>
+                                                    <div class="form-group" v-if="resources.identity < 4">
                                                         <label class="col-md-3 control-label">公司名称</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control media-input" placeholder="公司名称">
+                                                            <input type="text" v-model="resources.company_name" class="form-control media-input" placeholder="公司名称" name="companyname" v-validate:companyname="{required: true}">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">联系人</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control media-input" placeholder="联系人">
+                                                            <input type="text" v-model="resources.contact_name" class="form-control media-input" placeholder="联系人" name="contactname" v-validate:contactname="{required: true}">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">联系电话</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control media-input" placeholder="联系电话">
+                                                            <input type="text" v-model="resources.contact_phone" class="form-control media-input" placeholder="联系电话" name="contactphone" v-validate:contactphone="{required: true,userPhone: true}">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -237,15 +238,16 @@
                                                         <label class="col-md-3 control-label"></label>
                                                         <div class="col-md-9">
                                                         <div class="media-input">
-                                                            <input type="text" v-if="cityname.provincename !=''"  class="form-control" v-bind:class="[cityname.provincename !=''?classType.ntextb:classType.display]" value="{{cityname.provincename}}{{cityname.cityname}}{{cityname.districtname}}" readonly="true" v-on:change="textw()">
-                                                            <input type="text" class="form-control" placeholder="联系详细地址" v-bind:class="[cityname.provincename !=''?classType.atextw:classType.atextb]">
+                                                            <input type="text" v-if="cityname.provincename !=''"  class="form-control" v-bind:class="[cityname.provincename !=''?classType.ntextb:classType.display]" v-bind:value="cityname.provincename+cityname.cityname+cityname.districtname" readonly="true" v-model="address1name">
+                                                            <input type="text" class="form-control" placeholder="联系详细地址" v-bind:class="[cityname.provincename !=''?classType.atextw:classType.atextb]" v-model="address2name">
+                                                            <input type="hidden" v-model="resources.address" v-bind:value="address1name+address2name">
                                                         </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">货物名称</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control media-input" placeholder="货物名称">
+                                                            <input type="text" v-model="resources.name" class="form-control media-input" name="name" v-validate:name="{required: true}" placeholder="货物名称">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -263,22 +265,24 @@
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">货物数量</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control cc-select" placeholder="货物数量">
-                                                            <select class="form-control cc-select" style="margin-left: 2%;">
-                                                                <option v-bind:value="0">选择单位</option>
+                                                            <input type="text" name="number" v-validate:number="{required: true}" v-model="resources.number" class="form-control cc-select" placeholder="货物数量">
+                                                            <select v-model="resources.unit" class="form-control cc-select" style="margin-left: 2%;" v-if="isUint == true">
+                                                                <option v-bind:value="0" selected>选择单位</option>
                                                                 <option v-for="v in units" v-bind:value="v.name">{{v.name}}</option>
                                                             </select>
+                                                            <input v-model="resources.unit" type="text" class="form-control cc-select" placeholder="自定义单位" style="margin-left: 2%;" v-if="isUint == false">
                                                             <div class="cc-select" style="margin-left: 1%;">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-edit"></i>自定义单位</button>
+                                                                <button type="button" @click="addUnit(isUint)" class="btn btn-success"><i class="fa fa-edit"></i>{{isUintText}}</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">货物价格(选填)</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control cc-select" placeholder="货物价格">
+                                                            <input type="text" v-model="resources.price1" class="form-control cc-select" placeholder="货物价格">
+                                                            <input type="text" v-model="resources.price2" class="form-control cc-select" placeholder="货物价格" style="margin-left: 2%;" v-if="isPrive == true">
                                                             <div class="cc-select" style="margin-left: 1%;">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-edit"></i>自定义价格区间</button>
+                                                                <button type="button" @click="addPrive(isPrive)" class="btn btn-success"><i class="fa fa-edit"></i>{{isPriveText}}</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -287,33 +291,26 @@
                                                         <div class="col-md-9">
                                                             <div class="input-group input-daterange">
                                                                 <span class="input-group-addon">开始时间</span>
-                                                                <input type="text" class="form-control media-input" name="start" placeholder="开始时间">
+                                                                <input type="text" v-model="resources.start_time" name="starttime" v-validate:starttime="{required: true}"  class="form-control media-input" name="start" placeholder="开始时间">
                                                                 <span class="input-group-addon">&nbsp;结束时间</span>
-                                                                <input type="text" class="form-control media-input" name="end" placeholder="结束时间">
+                                                                <input type="text" name="endtime" v-validate:endtime="{required: true}" v-model="resources.end_time" class="form-control media-input" name="end" placeholder="结束时间">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">原用途(选填)</label>
                                                         <div class="col-md-9">
-                                                            <textarea class="form-control media-input" placeholder="原用途" rows="5"></textarea>
+                                                            <textarea class="form-control media-input" placeholder="原用途" v-model="resources.original_use" rows="5"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">货物内容</label>
                                                         <div class="col-md-9">
-                                                            <textarea class="form-control media-input" placeholder="组成成分及含量，外观成色，是否需要人工分选" rows="10"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-md-3 control-label">图片上传</label>
-                                                        <div class="col-md-9">
-                                                            <div class="media-text">
-                                                                <?php echo $__env->make('layouts.upload', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                                                            </div>
+                                                            <textarea v-model="resources.content" class="form-control media-input" name="content" v-validate:content="{required: true}" placeholder="组成成分及含量，外观成色，是否需要人工分选" rows="10"></textarea>
                                                         </div>
                                                     </div>
                                                 </form>
+                                            </validator>
                                             </div>
                                         </div>
                                         <!-- end panel -->
@@ -326,9 +323,39 @@
                         <!-- end wizard step-3 -->
                         <!-- begin wizard step-4 -->
                         <div>
-                            <div class="jumbotron m-b-0 text-center">
-                                <p>ddd</p>
-                            </div>
+                            <fieldset>
+                                <legend class="pull-left width-full">图片上传</legend>
+                                <!-- begin row -->
+                                <div class="row">
+                                    <!-- begin col-6 -->
+                                    <div class="ui-sortable">
+                                        <!-- begin panel -->
+                                        <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+                                            <div class="panel-body">
+                                                <form class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label"></label>
+                                                        <div class="col-md-9">
+                                                            <div class="media-text">
+                                                                <?php echo $__env->make('layouts.upload', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label"></label>
+                                                        <div class="col-md-9">
+                                                            <button @click="saveResources()" type="button" class="btn btn-success m-r-5">确认发布</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- end panel -->
+                                    </div>
+                                    <!-- end col-6 -->
+                                </div>
+                                <!-- end row -->
+                            </fieldset>
                         </div>
                         <!-- end wizard step-4 -->
                     </div>

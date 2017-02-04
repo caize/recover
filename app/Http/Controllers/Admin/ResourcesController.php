@@ -6,26 +6,26 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use Aizxin\Services\Admin\ResourcesService;
 class ResourcesController extends Controller
 {
-    // /**
-    //  *  [$service 服务]
-    //  *  @var [type]
-    //  */
-    // protected $service;
+    /**
+     *  [$service 服务]
+     *  @var [type]
+     */
+    protected $service;
 
-    // *
-    //  *  [__construct 注入]
-    //  *  izxin.com
-    //  *  @author qingfeng
-    //  *  @DateTime 2016-09-15T00:12:46+0800
-    //  *  @param    AuthService              $service [description]
-     
-    // public function __construct(ResourcesCategoryService $service)
-    // {
-    //     $this->service = $service;
-    // }
+    /**
+     *  [__construct description]
+     *  臭虫科技
+     *  @author chouchong
+     *  @DateTime 2017-02-04T16:30:50+0800
+     *  @param    ResourcesService         $service [description]
+     */
+    public function __construct(ResourcesService $service)
+    {
+        $this->service = $service;
+    }
     /**
      *  [index 网站信息]
      *  izxin.com
@@ -45,6 +45,14 @@ class ResourcesController extends Controller
         $article = json_encode(['id'=>0]);
         return view('admin.resources.add',compact('cate','article'));
     }
+    /**
+     *  [store 资源添加操作]
+     *  臭虫科技
+     *  @author chouchong
+     *  @DateTime 2017-02-04T17:41:39+0800
+     *  @param    Request                  $request [description]
+     *  @return   [type]                            [description]
+     */
     public function store(Request $request)
     {
         return $this->service->create($request);
