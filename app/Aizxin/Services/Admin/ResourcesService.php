@@ -54,4 +54,27 @@ class ResourcesService extends CommonService
             return $this->respondWithErrors( $e->getMessageBag()->first() , 422);
         }
     }
+    /**
+     *  [list 资源列表]
+     *  臭虫科技
+     *  @author chouchong
+     *  @DateTime 2017-02-06T15:13:16+0800
+     *  @return   [type]                   [description]
+     */
+    public function list($request)
+    {
+        return $this->respondWithSuccess($this->repository->getResourcesList($request), '返回成功');
+    }
+    /**
+     *  [getResourcesDetail 资源详情]
+     *  臭虫科技
+     *  @author chouchong
+     *  @DateTime 2017-02-06T17:23:24+0800
+     *  @param    [type]                   $id [description]
+     *  @return   [type]                       [description]
+     */
+    public function getResourcesDetail($id)
+    {
+        return $this->respondWithSuccess($this->repository->getResourcesDetail($id), '返回成功');
+    }
 }

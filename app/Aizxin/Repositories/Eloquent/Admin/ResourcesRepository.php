@@ -28,31 +28,67 @@ class ResourcesRepository extends Repository
 	 */
 	public function add($data,$imgs)
 	{
-		DB::beginTransaction();
-		try{
-			$data['thumb']=$imgs['imgs'][0];
-		    $result1 = $this->model->insertGetId($data);
-		    if (!$result1) {
-		        /**
-		         * Exception类接收的参数
-		         * $message = "", $code = 0, Exception $previous = null
-		         */
-		        throw new \Exception('1');
-		    }
-		    // $result2 = Test::create(['name'=>$name]);
-		    // if (!$result2) {
-		    //     throw new \Exception("2");
-		    // }
-		    DB::commit();
-		    return $result1;
-		} catch (\Exception $e){
-		    DB::rollback();//事务回滚
-		    // echo $e->getMessage();
-		    // echo $e->getCode();
-		    return $e->getCode();
-		}
-		// $data['thumb']=$imgs['imgs'][0];
-		// $result1 = $this->model->insertGetId($data);
-		// return $result1;
+		$data['thumb']=$imgs['imgs'][0];
+		$data['created_at'] = date('Y-m-d H:i:s',time());
+		$data['updated_at'] = date('Y-m-d H:i:s',time());
+	    $result1 = $this->model->insertGetId($data);
+	    $resource = $this->model->find($result1);
+	    $gallery = array();
+	    for ($i=0; $i < count($imgs['imgs']); $i++) {
+	    	$gallery[] = new \Aizxin\Models\ResourcesGallery(['thumb' => $imgs['imgs'][$i]]);
+	    }
+	    $resource->gallery()->saveMany($gallery);
+	    return $result1;
+	}
+	/**
+	 *  [getResourcesList 资源列表]
+	 *  臭虫科技
+	 *  @author chouchong
+	 *  @DateTime 2017-02-06T15:12:01+0800
+	 *  @param    [type]                   $request [description]
+	 *  @return   [type]                            [description]
+	 */
+	public function getResourcesList($request)
+	{
+		$results =  $this->model
+			->select(['id','name','status','start_time','end_time','rc1_id','rc2_id','rc3_id',"type","service","identity","mid"])
+			->with(['rc1'=>function($query){
+				$query->select('id','name');}])
+			->with(['rc2'=>function($query){
+				$query->select('id','name');}])
+			->with(['rc3'=>function($query){
+				$query->select('id','name');}])
+			->where('name','like','%'.trim($request['name']).'%')
+		   	->orderBy("id",'desc')
+		   	->paginate($request['pageSize'])
+		   	->toArray();
+    	return aizxin_paginate($results);
+	}
+	/**
+	 *  [findDetail 资源详情]
+	 *  臭虫科技
+	 *  @author chouchong
+	 *  @DateTime 2017-02-06T17:28:39+0800
+	 *  @param    [type]                   $id [description]
+	 *  @return   [type]                       [description]
+	 */
+	public function getResourcesDetail($id)
+	{
+		$resources = $this->model
+					->with(['rc1'=>function($query){
+						$query->select('id','name');}])
+					->with(['rc2'=>function($query){
+						$query->select('id','name');}])
+					->with(['rc3'=>function($query){
+						$query->select('id','name');}])
+					->with(['province'=>function($query){
+						$query->select('id','name');}])
+					->with(['city'=>function($query){
+						$query->select('id','name');}])
+					->with(['district'=>function($query){
+						$query->select('id','name');}])
+					->find($id);
+		$resources['gallery'] = $resources->gallery()->get(['id','thumb']);
+		return $resources;
 	}
 }

@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    App.init();
-    FormPlugins.init();
-    FormSliderSwitcher.init();
     new Vue({
         http: {
             root: '/root',
@@ -76,4 +73,7 @@ $(document).ready(function() {
             }
         }
     });
+    App.init();
+    FormPlugins.init();
+    FormSliderSwitcher.init();
 });

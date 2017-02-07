@@ -45,7 +45,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'web'],
         Route::any('resources/category/index', 'ResourcesCategoryController@index')->name('admin.resources.category.index');
         Route::resource('resources/category', 'ResourcesCategoryController');
         //资源
+        Route::any('resources/index', 'ResourcesController@index')->name('admin.resources.index');
         Route::resource('resources', 'ResourcesController');
+        //资源
+        Route::resource('member', 'ResourcesController');
     });
     Route::get('/area', 'AreaController@index');
     Route::get('/cate', 'ResourcesCategoryController@list');

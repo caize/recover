@@ -109,6 +109,7 @@ $(function() {
             isPrive: false,
             isPriveText: '价格区间',
             showUpload: true,
+            load: null
         },
         components: {
             vueCity: vueCity,
@@ -166,8 +167,9 @@ $(function() {
                         icon: 2
                     });
                 }
+                this.$set('load', layer.load());
                 this.$http.post(Aizxin.U('admin/resources'), this.resources).then(function(response) {
-                    console.log(response)
+                    this.callback(response)
                 }, function(response) {
                     console.log(response)
                 });
@@ -198,7 +200,7 @@ $(function() {
                             icon: 1,
                             time: 2000 //2秒关闭（如果不配置，默认是3秒）
                         }, function() {
-                            // window.location.href = "{{url('/admin/article/index')}}";
+                            window.location.href = Aizxin.U('admin/resources');
                         });
                     }, 3000);
                 }

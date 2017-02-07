@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2017-02-04 18:32:31
+Date: 2017-02-06 12:26:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3778,6 +3778,26 @@ INSERT INTO `configs` VALUES ('8', '网站联系邮箱', 'WEB_SITE_EMAIL', '1', 
 INSERT INTO `configs` VALUES ('9', '短信信息', 'SMS_KEY', '2', 'input', '短信信息', '9', null, null);
 
 -- ----------------------------
+-- Table structure for members
+-- ----------------------------
+DROP TABLE IF EXISTS `members`;
+CREATE TABLE `members` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `phone` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `thumb` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of members
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for migrations
 -- ----------------------------
 DROP TABLE IF EXISTS `migrations`;
@@ -3826,12 +3846,12 @@ CREATE TABLE `permissions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `permissions_name_unique` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of permissions
 -- ----------------------------
-INSERT INTO `permissions` VALUES ('1', '0', 'admin.index.manage', '主页管理1', '主页管理', '1', 'fa fa-laptop', '1', '2016-09-20 04:42:36', '2017-01-22 10:28:53');
+INSERT INTO `permissions` VALUES ('1', '0', 'admin.index.manage', '主页管理', '主页管理', '1', 'fa fa-laptop', '1', '2016-09-20 04:42:36', '2017-01-22 10:28:53');
 INSERT INTO `permissions` VALUES ('2', '0', 'admin.rbac.manage', '权限管理', '权限管理', '1', 'fa fa-users', '5', '2016-09-20 04:44:16', '2016-09-20 15:08:20');
 INSERT INTO `permissions` VALUES ('3', '1', 'admin.index.index', '后台主页', '后台主页', '1', null, '1', '2016-09-20 04:46:37', '2016-09-20 04:46:37');
 INSERT INTO `permissions` VALUES ('4', '2', 'admin.user.index', '管理员列表', '管理员列表', '1', null, '1', '2016-09-20 04:47:26', '2016-09-20 04:47:26');
@@ -3856,7 +3876,7 @@ INSERT INTO `permissions` VALUES ('22', '20', 'admin.permission.store', '新增�
 INSERT INTO `permissions` VALUES ('23', '20', 'admin.permission.edit', '编辑权限视图', '编辑权限视图', '0', null, '3', '2016-09-20 05:54:40', '2016-09-20 05:54:40');
 INSERT INTO `permissions` VALUES ('24', '20', 'admin.permission.update', '编辑权限操作', '编辑权限操作', '0', null, '4', '2016-09-20 06:06:27', '2016-09-20 06:06:27');
 INSERT INTO `permissions` VALUES ('25', '20', 'admin.permission.destroy', '权限删除', '权限删除', '0', null, '7', '2016-09-20 06:07:02', '2016-09-20 06:07:02');
-INSERT INTO `permissions` VALUES ('26', '0', 'admin.order.manage', '订单管理', '订单管理', '1', 'fa  fa-shopping-cart', '4', '2016-09-20 14:28:30', '2017-01-14 02:54:50');
+INSERT INTO `permissions` VALUES ('26', '0', 'admin.order.manage', '订单管理', '订单管理', '1', 'fa  fa-shopping-cart', '5', '2016-09-20 14:28:30', '2017-02-06 12:13:59');
 INSERT INTO `permissions` VALUES ('27', '0', 'admin.article.manage', '文章管理', '文章管理', '1', 'fa fa-file-text', '3', '2016-09-20 14:43:37', '2016-09-20 15:08:58');
 INSERT INTO `permissions` VALUES ('28', '27', 'admin.category.index', '分类列表', '分类列表', '1', null, '1', '2016-09-20 15:03:56', '2016-09-20 15:03:56');
 INSERT INTO `permissions` VALUES ('29', '27', 'admin.article.index', '文章列表', '文章列表', '1', null, '3', '2016-09-20 15:05:10', '2016-09-23 08:48:35');
@@ -3885,6 +3905,7 @@ INSERT INTO `permissions` VALUES ('51', '44', 'admin.resources.store', '新增�
 INSERT INTO `permissions` VALUES ('52', '44', 'admin.resources.edit', '编辑资源视图', '编辑资源视图', '0', null, '3', '2017-01-17 08:13:52', '2017-01-17 08:13:52');
 INSERT INTO `permissions` VALUES ('53', '44', 'admin.resources.update', '编辑资源操作', '编辑资源操作', '0', null, '4', '2017-01-17 08:15:03', '2017-01-17 08:15:03');
 INSERT INTO `permissions` VALUES ('54', '44', 'admin.resources.destroy', '资源删除', '资源删除', '0', null, '5', '2017-01-17 08:15:43', '2017-01-17 08:15:43');
+INSERT INTO `permissions` VALUES ('55', '49', 'admin.member.index', '会员列表', '会员列表', '1', null, '1', '2017-02-06 12:12:24', '2017-02-06 12:12:24');
 
 -- ----------------------------
 -- Table structure for permission_role
@@ -3930,6 +3951,7 @@ INSERT INTO `permission_role` VALUES ('22', '1');
 INSERT INTO `permission_role` VALUES ('23', '1');
 INSERT INTO `permission_role` VALUES ('24', '1');
 INSERT INTO `permission_role` VALUES ('25', '1');
+INSERT INTO `permission_role` VALUES ('26', '1');
 INSERT INTO `permission_role` VALUES ('27', '1');
 INSERT INTO `permission_role` VALUES ('28', '1');
 INSERT INTO `permission_role` VALUES ('29', '1');
@@ -3952,11 +3974,13 @@ INSERT INTO `permission_role` VALUES ('45', '1');
 INSERT INTO `permission_role` VALUES ('46', '1');
 INSERT INTO `permission_role` VALUES ('47', '1');
 INSERT INTO `permission_role` VALUES ('48', '1');
+INSERT INTO `permission_role` VALUES ('49', '1');
 INSERT INTO `permission_role` VALUES ('50', '1');
 INSERT INTO `permission_role` VALUES ('51', '1');
 INSERT INTO `permission_role` VALUES ('52', '1');
 INSERT INTO `permission_role` VALUES ('53', '1');
 INSERT INTO `permission_role` VALUES ('54', '1');
+INSERT INTO `permission_role` VALUES ('55', '1');
 
 -- ----------------------------
 -- Table structure for resources
@@ -3986,22 +4010,23 @@ CREATE TABLE `resources` (
   `thumb` varchar(255) NOT NULL COMMENT '资源 缩略图',
   `original_use` varchar(255) DEFAULT NULL COMMENT '原用途',
   `content` text NOT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime NOT NULL,
+  `start_time` varchar(255) NOT NULL,
+  `end_time` varchar(255) NOT NULL,
   `status` int(11) DEFAULT '0' COMMENT '0:等待审核，-1：审核失败，1：等待报价，2：报价结束，3：确认交易，4:交易完成',
-  `created_at` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of resources
 -- ----------------------------
-INSERT INTO `resources` VALUES ('1', '2', '2', '5', '0', '1', '9', '11', '33', null, '11', '18206766729', '120000', '120100', '120102', '天津市市辖区河东区22', '444', '台', '555', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/0c4f0407509641eaf479372250064ad2.jpg', '444', '5555', '2017-02-21 00:00:00', '2017-03-08 00:00:00', '0', '2017-02-04 10:03:57', '2017-02-04 10:03:57');
-INSERT INTO `resources` VALUES ('2', '2', '2', '5', '0', '1', '9', '11', '33', null, '11', '18206766729', '120000', '120100', '120102', '天津市市辖区河东区22', '444', '台', '555', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/0c4f0407509641eaf479372250064ad2.jpg', '444', '5555', '2017-02-21 00:00:00', '2017-03-08 00:00:00', '0', '2017-02-04 10:12:46', '2017-02-04 10:12:46');
-INSERT INTO `resources` VALUES ('3', '0', '0', '0', '0', '0', '0', '0', '', null, '', '', '', '', '', '', '0', '', '0.00', '0.00', '', null, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '2017-02-04 10:18:39', '2017-02-04 10:18:39');
-INSERT INTO `resources` VALUES ('4', '2', '2', '5', '0', '1', '9', '11', '33', null, '11', '18206766729', '120000', '120100', '120102', '天津市市辖区河东区22', '444', '台', '555', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/0c4f0407509641eaf479372250064ad2.jpg', '444', '5555', '2017-02-21 00:00:00', '2017-03-08 00:00:00', '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `resources` VALUES ('5', '2', '2', '5', '0', '1', '9', '11', '33', null, '11', '18206766729', '120000', '120100', '120102', '天津市市辖区河东区22', '444', '台', '555', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/0c4f0407509641eaf479372250064ad2.jpg', '444', '5555', '2017-02-21 00:00:00', '2017-03-08 00:00:00', '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `resources` VALUES ('1', '1', '1', '3', '0', '1', '9', '11', '55', '11', '22', '18206766729', '110000', '110200', '110229', '北京市县延庆县44', '66', '毫升（ml）', '777', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '6600', '777888', '', '', '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `resources` VALUES ('2', '1', '1', '3', '0', '1', '9', '11', '55', '11', '22', '18206766729', '110000', '110200', '110229', '北京市县延庆县44', '66', '毫升（ml）', '777', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '6600', '777888', '', '', '0', '2017-02-06 02:34:42', '2017-02-06 02:34:42');
+INSERT INTO `resources` VALUES ('3', '1', '1', '3', '0', '1', '9', '11', '55', '11', '22', '18206766729', '110000', '110200', '110229', '北京市县延庆县44', '66', '毫升（ml）', '777', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '6600', '777888', '', '', '0', '2017-02-06 10:39:28', '2017-02-06 10:39:28');
+INSERT INTO `resources` VALUES ('4', '1', '1', '3', '0', '1', '9', '11', '55', '11', '22', '18206766729', '110000', '110200', '110229', '北京市县延庆县44', '66', '毫升（ml）', '777', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '6600', '777888', '', '', '0', '2017-02-06 10:40:41', '2017-02-06 10:40:41');
+INSERT INTO `resources` VALUES ('5', '1', '1', '3', '0', '1', '9', '11', '55', '11', '22', '18206766729', '110000', '110200', '110229', '北京市县延庆县44', '66', '毫升（ml）', '777', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '6600', '777888', '2017-02-27', '2017-03-09', '0', '2017-02-06 10:41:06', '2017-02-06 10:41:06');
+INSERT INTO `resources` VALUES ('6', '3', '3', '4', '0', '3', '0', '0', '55', null, '22', '18206766729', '110000', '110100', '110105', '北京市市辖区朝阳区677', '66', '辆', '77', '0.00', 'http://oe3em7ins.bkt.clouddn.com/resources/409287b06d89cc8396c0ae5df4de2946.jpg', '77', '88', '2017-02-28', '2017-03-08', '0', '2017-02-06 10:46:11', '2017-02-06 10:46:11');
 
 -- ----------------------------
 -- Table structure for resources_categories
@@ -4050,11 +4075,23 @@ CREATE TABLE `resources_gallery` (
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of resources_gallery
 -- ----------------------------
+INSERT INTO `resources_gallery` VALUES ('1', '1', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '2017-02-06 02:33:20', '2017-02-06 02:33:20');
+INSERT INTO `resources_gallery` VALUES ('2', '1', 'http://oe3em7ins.bkt.clouddn.com/resources/b1927704130d7a80d664581cfb50b15c.jpg', '2017-02-06 02:33:20', '2017-02-06 02:33:20');
+INSERT INTO `resources_gallery` VALUES ('3', '2', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '2017-02-06 02:34:42', '2017-02-06 02:34:42');
+INSERT INTO `resources_gallery` VALUES ('4', '2', 'http://oe3em7ins.bkt.clouddn.com/resources/b1927704130d7a80d664581cfb50b15c.jpg', '2017-02-06 02:34:42', '2017-02-06 02:34:42');
+INSERT INTO `resources_gallery` VALUES ('5', '3', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '2017-02-06 10:39:28', '2017-02-06 10:39:28');
+INSERT INTO `resources_gallery` VALUES ('6', '3', 'http://oe3em7ins.bkt.clouddn.com/resources/b1927704130d7a80d664581cfb50b15c.jpg', '2017-02-06 10:39:28', '2017-02-06 10:39:28');
+INSERT INTO `resources_gallery` VALUES ('7', '4', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '2017-02-06 10:40:41', '2017-02-06 10:40:41');
+INSERT INTO `resources_gallery` VALUES ('8', '4', 'http://oe3em7ins.bkt.clouddn.com/resources/b1927704130d7a80d664581cfb50b15c.jpg', '2017-02-06 10:40:41', '2017-02-06 10:40:41');
+INSERT INTO `resources_gallery` VALUES ('9', '5', 'http://oe3em7ins.bkt.clouddn.com/resources/e0e8c7d61a73ba8ffdd3991d46e9789a.jpg', '2017-02-06 10:41:06', '2017-02-06 10:41:06');
+INSERT INTO `resources_gallery` VALUES ('10', '5', 'http://oe3em7ins.bkt.clouddn.com/resources/b1927704130d7a80d664581cfb50b15c.jpg', '2017-02-06 10:41:06', '2017-02-06 10:41:06');
+INSERT INTO `resources_gallery` VALUES ('11', '6', 'http://oe3em7ins.bkt.clouddn.com/resources/409287b06d89cc8396c0ae5df4de2946.jpg', '2017-02-06 10:46:11', '2017-02-06 10:46:11');
+INSERT INTO `resources_gallery` VALUES ('12', '6', 'http://oe3em7ins.bkt.clouddn.com/resources/e395143c01124d19accd4a8545446b75.jpg', '2017-02-06 10:46:11', '2017-02-06 10:46:11');
 
 -- ----------------------------
 -- Table structure for roles
@@ -4150,7 +4187,7 @@ CREATE TABLE `users` (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'admin', 'admin@admin.com', '$2y$10$uyMqZp3BjFHKvf.mxhIQfOPoppPaZZ5N0FxfIMJALtxAhJbD5xed6', 'ZrmVsZKJLIUFcQumD1cM1Ptb4dUVsweyLe6pritFFCtmJNB81gpEpoa7Rcoi', '2016-09-01 08:17:57', '2017-01-11 10:35:00');
+INSERT INTO `users` VALUES ('1', 'admin', 'admin@admin.com', '$2y$10$uyMqZp3BjFHKvf.mxhIQfOPoppPaZZ5N0FxfIMJALtxAhJbD5xed6', 'ol4jq0dM31gzqgq2XQ2embMvQ2cPC3Tvfv4SKe3kB1Mh5TwjzjhrnlS0ifiv', '2016-09-01 08:17:57', '2017-02-06 12:14:13');
 INSERT INTO `users` VALUES ('3', 'demo', 'demo@demo.com', '$2y$10$nvd0j6ZlGrX9q9SdLg/dZeN8iYUpezixZtPdmfkTVDeZZFyLmYFDa', 'V1q5m5bpjy8azgRVvJoeHzF55uiHYdp0OCJsOm1Bi7KyMkQEcqha6E7tLGIq', '2016-09-20 03:22:26', '2016-09-20 06:51:35');
 INSERT INTO `users` VALUES ('4', 'test', 'test@test.com', '$2y$10$m8ophfQ7FFpdmP1Xc2UVau/IEp31Zgg8trJLYomeUngWWJGMdZ5JO', null, '2016-09-20 07:15:42', '2016-09-20 07:15:42');
 INSERT INTO `users` VALUES ('5', 'test44', 'test44@test.com', '$2y$10$9zrWnAH.LhK2RiDbYy1AGO3zcpSRzQpGAiBEItWhl3T/H0sET5KyS', null, '2016-09-22 05:21:27', '2016-09-22 05:21:27');

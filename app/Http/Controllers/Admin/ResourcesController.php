@@ -27,7 +27,7 @@ class ResourcesController extends Controller
         $this->service = $service;
     }
     /**
-     *  [index 网站信息]
+     *  [index 资源信息]
      *  izxin.com
      *  @author qingfeng
      *  @DateTime 2016-09-19T10:29:18+0800
@@ -35,9 +35,21 @@ class ResourcesController extends Controller
      */
     public function index(Request $request)
     {
+        if($request->ajax()){
+            return $this->service->list($request);
+        }
         return view('admin.resources.index');
     }
+    /**
+     *  [show 资源详情]
+     *  臭虫科技
+     *  @author chouchong
+     *  @DateTime 2017-02-06T18:21:39+0800
+     *  @param    [type]                   $id [description]
+     *  @return   [type]                       [description]
+     */
     public function show($id){
+        return $this->service->getResourcesDetail($id);
     }
     public function create()
     {
@@ -61,7 +73,7 @@ class ResourcesController extends Controller
     {
     }
     /**
-     *  [destroy 分类删除]
+     *  [destroy 资源删除]
      *  臭虫科技
      *  @author chouchong
      *  @DateTime 2017-01-13T17:13:55+0800
@@ -73,7 +85,7 @@ class ResourcesController extends Controller
         return $this->service->destroy($id);
     }
     /**
-     *  [update 分类更新]
+     *  [update 资源更新]
      *  臭虫科技
      *  @author chouchong
      *  @DateTime 2017-01-13T17:14:11+0800
