@@ -31,7 +31,7 @@ $(document).ready(function() {
              *  [fetchItems 获取文章]
              */
             fetchItems: function(page, pageSize, name) {
-                this.pagination.current_page = page;
+                this.$set('pagination.current_page', page);
                 var data = {
                     page: page,
                     pageSize: pageSize,

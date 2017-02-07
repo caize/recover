@@ -1,5 +1,6 @@
 $(document).ready(function() {
     App.init();
+    Gallery.init();
     new Vue({
         http: {
             root: '/root',
@@ -22,7 +23,7 @@ $(document).ready(function() {
             pageSize: 10,
             name: '',
             title: '只能查资源标题',
-            res: null
+            res: {}
         },
         created: function() {
             this.fetchItems(this.pagination.current_page, this.pageSize, '');
@@ -51,6 +52,7 @@ $(document).ready(function() {
             resourcesDetail: function(id) {
                 this.$http.get(Aizxin.U('admin/resources') + "/" + id).then(function(response) {
                     this.$set('res', response.data.result);
+                    console.log(this.res)
                 }, function(error) {
                     console.log("系统错误");
                 });

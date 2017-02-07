@@ -297,6 +297,8 @@
 	<script src="/assets/plugins/powerange/powerange.min.js"></script>
 	<script src="/assets/js/form-slider-switcher.demo.min.js"></script>
 	<script src="{{asset('assets/plugins/bootstrap-wizard/js/bwizard.js')}}"></script>
+	<script src="/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+	
     <!-- <script src="{{asset('assets/js/form-wizards.demo.min.js')}}"></script> -->
 	<script src="/assets/js/apps.min.js"></script>
 	<!-- ================== END PAGE LEVEL JS ================== -->

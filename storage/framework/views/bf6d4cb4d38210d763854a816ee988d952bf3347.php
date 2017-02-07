@@ -1,3 +1,39 @@
+<?php $__env->startSection('style'); ?>
+<style>
+    .media-input{
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+    }
+    @media  only screen and (min-width: 1200px) {
+        .media-input {
+            width: 60%;
+        }
+    }
+    .image {
+        width: 25%;
+        display: block;
+        margin-right: -10px;
+        overflow: hidden;
+        padding: 10px;
+    }
+    .image img {
+        width: 100%;
+        height: 200px;
+        -webkit-border-radius: 3px 3px 0 0;
+        -moz-border-radius: 3px 3px 0 0;
+        border-radius: 3px 3px 0 0;
+    }
+</style>
+<link href="/assets/plugins/isotope/isotope.css" rel="stylesheet" />
+<link href="/assets/plugins/lightbox/css/lightbox.css" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div id="content" class="content">
     <!-- begin breadcrumb -->
@@ -65,7 +101,9 @@
                                                 <span v-if="vo.rc2">>>{{vo.rc2.name}}</span>
                                                 <span v-if="vo.rc3">>>{{vo.rc3.name}}</span>
                                             </td>
-                                            <td>{{vo.rc2|json}}</td>
+                                            <td>
+                                                <span v-if="vo.rc1">{{vo.rc1.name}}</span>
+                                            </td>
                                             <td>
                                                 <a type="button" class="btn btn-success" href="#modal-dialog" data-toggle="modal" @click="resourcesDetail(vo.id)">
                                                     <i class="fa fa-group"></i>
@@ -108,77 +146,97 @@
                                             <validator name="AddReValidation">
                                                 <form class="form-horizontal" novalidate>
                                                     <div class="form-group" v-if="res.company_name">
-                                                    {{res|json}}
                                                         <label class="col-md-3 control-label">公司名称</label>
                                                         <div class="col-md-9">
-                                                            <input type="text"class="form-control media-input" name="companyname" v-bind:value="res.company_name" readonly>
+                                                        <span class="media-input">{{res.company_name}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">联系人</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control media-input" placeholder="联系人" name="contactname" v-bind:value="res.contact_name" readonly>
+                                                        <span class="media-input">{{res.contact_name}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">联系电话</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control media-input" placeholder="联系电话" name="contactphone" value="公司名称" readonly>
+                                                        <span class="media-input">{{res.contact_phone}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">联系地址</label>
                                                         <div class="col-md-9">
-                                                           <input type="text" class="form-control media-input" placeholder="联系电话" name="contactphone" value="公司名称" readonly>
+                                                        <span class="media-input">{{res.address}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">货物名称</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control media-input" name="name" value="公司名称" readonly>
+                                                        <span class="media-input">{{res.name}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">种类类型</label>
                                                         <div class="col-md-9">
-                                                            订单
+                                                            <span class="media-input">
+                                                                <span v-if="res.rc1">{{res.rc1.name}}</span>
+                                                                <span v-if="res.rc2">>>{{res.rc2.name}}</span>
+                                                                <span v-if="res.rc3">>>{{res.rc3.name}}</span>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">货物数量</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" name="number"  class="form-control cc-select" value="公司名称" readonly>
-                                                            <input v-model="resources.unit" type="text" class="form-control cc-select" placeholder="自定义单位" style="margin-left: 2%;" value="公司名称" readonly>
+                                                            <span name="number" class="media-input">{{res.number}}
+                                                            <span>{{res.unit}}</span>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-3 control-label">货物价格(选填)</label>
+                                                        <label class="col-md-3 control-label">
+                                                        <span v-if="res.price2 > 1">价格区间</span>
+                                                        <span v-else>货物价格</span>
+                                                        </label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control cc-select" placeholder="货物价格" value="公司名称" readonly>
-                                                            <input type="text" class="form-control cc-select" placeholder="货物价格" style="margin-left: 2%;" value="公司名称" readonly>
+                                                            <span class="media-input">{{res.price1}}
+                                                                <span v-if="res.price2 > 1" style="margin-left: 2%;" >到{{res.price2}}</span>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">活动时间</label>
                                                         <div class="col-md-9">
                                                             <div class="input-group input-daterange">
-                                                                <span class="input-group-addon">开始时间</span>
-                                                                <input type="text" v-model="resources.start_time" name="starttime" v-validate:starttime="{required: true}"  class="form-control media-input" name="start" placeholder="开始时间">
-                                                                <span class="input-group-addon">&nbsp;结束时间</span>
-                                                                <input type="text" name="endtime" v-validate:endtime="{required: true}" v-model="resources.end_time" class="form-control media-input" name="end" placeholder="结束时间">
+                                                                <span class="input-group-addon">开始时间：</span>
+                                                                <span class="media-input" style="width: 100%">{{res.start_time}}</span>
+                                                                <span class="input-group-addon">&nbsp;结束时间:</span>
+                                                                <span class="media-input" style="width: 100%">{{res.end_time}}</span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label class="col-md-3 control-label">原用途(选填)</label>
+                                                    <div class="form-group" v-if="res.original_use">
+                                                        <label class="col-md-3 control-label">原用途</label>
                                                         <div class="col-md-9">
-                                                            <textarea class="form-control media-input" placeholder="原用途" v-model="resources.original_use" rows="5"></textarea>
+                                                            <span class="media-input" style="height: initial;">{{res.original_use}}</span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">货物内容</label>
                                                         <div class="col-md-9">
-                                                            <textarea v-model="resources.content" class="form-control media-input" name="content" v-validate:content="{required: true}" placeholder="组成成分及含量，外观成色，是否需要人工分选" rows="10"></textarea>
+                                                            <span class="media-input" name="content" style="height: initial;">{{res.content}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">货物图片</label>
+                                                        <div class="col-md-9">
+                                                            <div style="float: left" class="image gallery-group-1" v-for="g in res.gallery">
+                                                                <div class="image-inner">
+                                                                    <a href="{{g.thumb}}" data-lightbox="gallery-group-1">
+                                                                        <img v-bind:src="g.thumb" alt="" />
+                                                                    </a>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -206,6 +264,9 @@
 <?php $__env->stopSection(); ?> <?php $__env->startSection('my-js'); ?>
 <script src="/layer/layer.js"></script>
 <script src="/vue/vue-pagination.js"></script>
+<script src="/assets/plugins/isotope/jquery.isotope.min.js"></script>
+<script src="/assets/plugins/lightbox/js/lightbox-2.6.min.js"></script>
+<script src="/assets/js/gallery.demo.min.js"></script>
 <script src="/js/admin/resources/resources.js"></script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

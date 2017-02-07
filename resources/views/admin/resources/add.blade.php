@@ -1,5 +1,6 @@
-@extends('layouts.admin') @section('style')
 @include('UEditor::head');
+@extends('layouts.admin') 
+@section('style')
 <style>
     .input {
         width: 500px;

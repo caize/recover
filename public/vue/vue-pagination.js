@@ -22,7 +22,7 @@
              *  [noNext 下一页]
              */
             noNext: function() {
-                return this.pagination.current_page == this.pagination.last_page;
+                return this.pagination.current_page == this.pagination.last_page ? true : false;
             },
             /**
              *  [pagesNumber 页数]
@@ -49,7 +49,18 @@
         },
         methods: {
             changePage: function(page, pageSize, name) {
-                this.$dispatch('change-page', page, pageSize, name)
+                if (this.pagination.current_page > this.pagination.last_page) {
+                    this.$set('pagination.current_page', this.pagination.last_page);
+                    this.$dispatch('change-page', this.pagination.last_page, pageSize, name);
+                } else if (page < this.pagination.last_page) {
+                    this.$set('pagination.current_page', page);
+                    this.$dispatch('change-page', page, pageSize, name);
+                } else if (page > this.pagination.last_page) {
+                    this.$set('pagination.current_page', this.pagination.last_page);
+                    this.$dispatch('change-page', this.pagination.last_page, pageSize, name);
+                } else {
+                    this.$dispatch('change-page', page, pageSize, name);
+                }
             },
         },
     });
