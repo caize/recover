@@ -103,7 +103,27 @@
                                                 <span v-if="vo.rc3">>>@{{vo.rc3.name}}</span>
                                             </td>
                                             <td>
-                                                <span v-if="vo.rc1">@{{vo.rc1.name}}</span>
+                                                <span v-if="vo.status == 0">
+                                                    <button class="btn btn-warning m-r-5 m-b-5">等待审核</button>
+                                                </span>
+                                                <span v-if="vo.status == -1">
+                                                    <button class="btn btn-warning m-r-5 m-b-5">审核失败</button>
+                                                </span>
+                                                <span v-if="vo.status == 1">
+                                                    <button v-if="vo.service == 1 || vo.service == 2" disabled="true" class="btn btn-white active m-r-5 m-b-5">等待报价</button>
+                                                    <button v-if="vo.service==3 || vo.service == 4" disabled="true" class="btn btn-white active m-r-5 m-b-5">等待预约</button>
+                                                </span>
+                                                <span v-if="vo.status == 2">
+                                                    <button v-if="vo.service == 1 || vo.service == 2" disabled="true" class="btn btn-white active m-r-5 m-b-5">报价结束</button>
+                                                    <button v-if="vo.service==3 || vo.service == 4" disabled="true" class="btn btn-white active m-r-5 m-b-5">预约结束</button>
+                                                </span>
+                                                <span v-if="vo.status == 3">
+                                                    <button v-if="vo.service == 1 || vo.service == 2" disabled="true" class="btn btn-white active m-r-5 m-b-5">确认交易</button>
+                                                    <button v-if="vo.service==3 || vo.service == 4" disabled="true" class="btn btn-white active m-r-5 m-b-5">确认预约</button>
+                                                </span>
+                                                <span v-if="vo.status == 4">
+                                                    <button disabled="true" class="btn btn-white active m-r-5 m-b-5">交易完成</button>
+                                                </span>
                                             </td>
                                             <td>
                                                 <a type="button" class="btn btn-success" href="#modal-dialog" data-toggle="modal" @click="resourcesDetail(vo.id)">
@@ -112,7 +132,7 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                 @permission('admin.article.destroy')
+                                                 @permission('admin.resources.destroy')
                                                 <button type="button" class="btn btn-danger delete" @click="destroy(vo.id)">
                                                     <i class="glyphicon glyphicon-trash"></i>
                                                     <span>删除</span>
@@ -146,6 +166,28 @@
                                             <div class="panel-body">
                                             <validator name="AddReValidation">
                                                 <form class="form-horizontal" novalidate>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">服务类型</label>
+                                                        <div class="col-md-9">
+                                                        <!-- //1：我要销售、2：我要求购，3：我需要服务、4:我提供服务，5：免费服务 -->
+                                                        <span class="media-input" v-if="res.service == 1">我要销售</span>
+                                                        <span class="media-input" v-if="res.service == 2">我要求购</span>
+                                                        <span class="media-input" v-if="res.service == 3">我需要服务</span>
+                                                        <span class="media-input" v-if="res.service == 4">我提供服务</span>
+                                                        <span class="media-input" v-if="res.service == 5">免费服务</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">身份类型</label>
+                                                        <div class="col-md-9">
+                                                        <!-- //1:企业/工厂，2:回收/贸易商，3:加工/利用商，4:个人/个体商户，5:机关/事业单位 -->
+                                                        <span class="media-input" v-if="res.identity == 1">企业/工厂</span>
+                                                        <span class="media-input" v-if="res.identity == 2">回收/贸易商</span>
+                                                        <span class="media-input" v-if="res.identity == 3">加工/利用商</span>
+                                                        <span class="media-input" v-if="res.identity == 4">个人/个体商户</span>
+                                                        <span class="media-input" v-if="res.identity == 5">机关/事业单位</span>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-group" v-if="res.company_name">
                                                         <label class="col-md-3 control-label">公司名称</label>
                                                         <div class="col-md-9">

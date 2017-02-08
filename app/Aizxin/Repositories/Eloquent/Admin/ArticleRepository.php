@@ -36,7 +36,7 @@ class ArticleRepository extends Repository
 			->select($this->fillable)
 			->with(['category'=>function($query){
 				$query->select('id','name');
-			}])->where('title','like','%'.trim($request['title']).'%')
+			}])->where('title','like','%'.trim($request['name']).'%')
 		   	->orderBy("id",'desc')
 		   	->paginate($request['pageSize'])
 		   	->toArray();
